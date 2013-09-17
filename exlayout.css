@@ -1,0 +1,205 @@
+body {
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	font-family: Tahoma, Verdana, sans-serif;
+	color: #ccc;
+	background-color: #333;
+	
+	overflow:hidden;
+	
+
+}
+
+input:focus, select:focus, textarea:focus {
+	outline:none;
+}
+	
+#title1 {
+	width: 4.40em;
+	/*border: 1px solid red;*/
+	margin: 0 auto;
+	font-size: 500%;
+	
+}
+
+
+#buttonArea1 {
+	
+	width: 41.5em; /*700px*/
+	height: 1.5em;
+			
+	margin: 0 auto;
+	margin-top: 7px; 
+	text-align: center;	 
+	font-size: 70%; 
+	/*border: 1px solid red;*/
+}
+
+#keyBox1, #keyBox2{
+	width: 750px;
+	margin: 0 auto;
+	margin-top: 8px;
+	
+}
+
+#keyBox1 textarea, #keyBox2 textarea {
+	width: 750px;
+	height: 95px;
+	margin: 0 auto;
+	border: 2px solid;
+	color: #ccc;
+	background-color: #333;
+	font-family:  "Segoe UI Symbol", symbol;
+	
+	font-size: 30px;
+	line-height: 31px; 
+	letter-spacing: .02em;
+	
+	resize: none; 
+	overflow:hidden;
+	
+	text-align:center;
+	
+}
+
+#messageBox {
+	width: 750px;
+	margin: 0 auto;
+	margin-top: 8px;
+		
+}
+
+#messageBox textarea {
+	width: 750px;
+	height: 450px;
+	margin: 0 auto;
+	border: 2px solid;
+	color: #ccc;
+	background-color: #333;
+	font-family:  "Segoe UI Symbol", symbol;
+	font-size: 1em;
+	line-height: 1em;
+	letter-spacing: .1em;
+	resize: none; 
+	overflow:hidden;
+	
+}
+
+textarea::selection {
+	color:#ccc;
+}
+
+textarea::-moz-selection{
+	color:#ccc;
+}
+
+#buttonArea2 {
+	width: 31.5em; 
+	height: 1.5em;
+	margin: 0 auto;
+	margin-top: 7px; 
+	/*border: 1px solid red;*/
+	text-align: center;	 
+	font-size: 70%; 
+	
+}
+
+#buttonArea3 {
+	width: 20.75em; 
+	height: 1.5em;
+	margin: 0 auto;
+	margin-top: 7px; 
+	/*border: 1px solid red;*/
+	text-align: center;	 
+	font-size: 70%; 
+	
+}
+
+	
+.button {
+	display: block; 
+	float: left; 
+	max-height: 2em;
+	width: 10em;
+	height: 1.15em;
+	margin-left: auto;
+	margin-right: auto; 
+	padding: 1px;
+	font-weight: bold; 
+	cursor: pointer;
+	border: 1px solid; 
+
+
+}
+
+
+
+.button:hover {
+	color: white; 
+}
+
+.button:hover::selection {
+	color: white; 
+}
+
+.button::selection
+{
+color:#ccc;
+}
+.button::-moz-selection
+{
+color:#ccc;
+}
+
+
+/*#enigmaX {
+	color: #333;
+	background-color: #ccc;
+	border-color: #ccc;
+}*/
+
+
+a {
+	text-decoration: none;
+	
+}
+
+a:link, a:visited {
+	color: white;
+	font-style: italic;
+}      
+
+a:hover, a:active {
+	color:white;
+}  
+
+#aboutDiv, #aboutDiv h3  {
+	width: 650px;
+	
+	margin: 0 auto;
+	
+	color: #ccc;
+	background-color: #333;
+	font-family:  "Segoe UI Symbol", symbol;
+	font-size: 1em;
+	line-height: 1em;
+	letter-spacing: .1em;
+	resize: none; 
+	overflow:hidden;
+	
+	font-family:  "Segoe UI Symbol", Tahoma, Verdana, sans-serif;
+	/*font-family:  "Segoe UI Symbol", symbol;*/
+	text-align:justify;
+}
+
+#aboutDiv h3 {
+	text-align:center;
+	font-weight: normal;
+}
+
+#aboutDiv p {
+	margin-top: 10px; 
+	
+} 
+
+	
