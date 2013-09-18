@@ -822,6 +822,7 @@ var inputLoadButton = document.getElementById("buttonArea3").children[0];
 var inputDoneButton = document.getElementById("buttonArea3").children[1];
 var inputKeyBox = document.getElementById("keyBox2").children[0];
 
+var contextMenuOn = false; 
 messageBox.value = "paste or type your message here....";
 inputKeyBox.value = "\npaste your key here...";
 
@@ -884,39 +885,41 @@ loadButton.onclick = function() {
 };
 
 
+
+
 messageBox.onfocus = function() {
 
 	if(messageBox.value == "paste or type your message here....") {
 		messageBox.value = "";
 	}
 
-	
 };
 
-
-var rightClick = false; 
-
-messageBox.oncontextmenu = function() {
-	
-	console.log(messageBox.contextmenu);
-	rightClick = true; 
-}
 
 messageBox.onmouseout = function() {
 
-	if(messageBox.value == "" &&  !rightClick) {
+	if(messageBox.value == "" && !contextMenuOn) {
 		messageBox.value = "paste or type your message here....";
-		keyBox.focus(); 
+		messageBox.blur();
 	}
-
 	
 };
 
-keyBox.onclick = function() {
-	keyBox.select();
-
+messageBox.oncontextmenu = function() {
+	contextMenuOn = true; 
 }
 
+document.onclick = function() {
+	contextMenuOn = false; 
+}
+
+/*window.blur = function() {
+	contextMenuOn = false; 
+}*/
+
+keyBox.onclick = function() {
+	keyBox.select();
+}
 
 inputLoadButton.onclick = function() {
 	var thinkDingKey = enigmaXMachine.loadKey(inputKeyBox.value); 	
@@ -942,12 +945,15 @@ inputKeyBox.onfocus = function() {
 };
 
 inputKeyBox.onmouseout = function() {
-	if(inputKeyBox.value == "") {
+	if(inputKeyBox.value == "" && !contextMenuOn) {
 		inputKeyBox.value = "\npaste your key here...";
-		keyBox.focus(); 
+		inputKeyBox.blur(); 
 	}
 };
 
+inputKeyBox.oncontextmenu = function() {
+	contextMenuOn = true; 
+}
 
 enigmaXButton.onclick = function() {
 	keyBox.style.display = '';
