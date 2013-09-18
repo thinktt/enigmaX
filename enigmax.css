@@ -10,6 +10,32 @@ body {
 
 }
 
+::selection  {
+	background: #999999;
+}
+
+textarea::-moz-selection{
+	background: #4A8CF6;
+	color: white;
+}
+
+
+
+/* 
+ textarea::selection {
+	background: #999999;
+}
+
+textarea::-moz-selection{
+	background:#999999;
+}
+
+textarea::-webkit-selection {
+	background:#999999;
+}
+*/
+
+
 input:focus, select:focus, textarea:focus {
 	outline:none;
 }
@@ -20,7 +46,14 @@ input:focus, select:focus, textarea:focus {
 	margin: 0 auto;
 	font-size: 500%;
 	
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
+
 
 
 #buttonArea1 {
@@ -33,6 +66,15 @@ input:focus, select:focus, textarea:focus {
 	text-align: center;	 
 	font-size: 70%; 
 	/*border: 1px solid red;*/
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	
+	
+	
 }
 
 #keyBox1, #keyBox2{
@@ -85,13 +127,7 @@ input:focus, select:focus, textarea:focus {
 	
 }
 
-textarea::selection {
-	color:#ccc;
-}
 
-textarea::-moz-selection{
-	color:#ccc;
-}
 
 #buttonArea2 {
 	width: 31.5em; 
@@ -101,6 +137,13 @@ textarea::-moz-selection{
 	/*border: 1px solid red;*/
 	text-align: center;	 
 	font-size: 70%; 
+	
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 	
 }
 
@@ -113,10 +156,17 @@ textarea::-moz-selection{
 	text-align: center;	 
 	font-size: 70%; 
 	
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	
 }
 
 	
-.button {
+.button , .buttonDead {
 	display: block; 
 	float: left; 
 	max-height: 2em;
@@ -126,12 +176,15 @@ textarea::-moz-selection{
 	margin-right: auto; 
 	padding: 1px;
 	font-weight: bold; 
-	cursor: pointer;
 	border: 1px solid; 
-
 
 }
 
+
+
+.button {
+	cursor: pointer;
+}
 
 
 .button:hover {

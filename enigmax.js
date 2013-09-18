@@ -828,6 +828,10 @@ inputKeyBox.value = "\npaste your key here...";
 loadDiv.style.display = "none";
 aboutDiv.style.display ="none";
 
+enigmaXButton.style.color = "#333"; 
+enigmaXButton.style.backgroundColor = "#ccc";
+enigmaXButton.style.borderColor = "#ccc"; 
+
 
 //.......................The Program......................
 var enigmaXMachine = new EnigmaXMachine();
@@ -885,12 +889,22 @@ messageBox.onfocus = function() {
 	if(messageBox.value == "paste or type your message here....") {
 		messageBox.value = "";
 	}
+
 	
 };
 
+
+var rightClick = false; 
+
+messageBox.oncontextmenu = function() {
+	
+	console.log(messageBox.contextmenu);
+	rightClick = true; 
+}
+
 messageBox.onmouseout = function() {
 
-	if(messageBox.value == "") {
+	if(messageBox.value == "" &&  !rightClick) {
 		messageBox.value = "paste or type your message here....";
 		keyBox.focus(); 
 	}
