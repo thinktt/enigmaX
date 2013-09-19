@@ -818,13 +818,17 @@ var loadButton = document.getElementById("buttonArea2").children[0];
 var newKeyButton = document.getElementById("buttonArea2").children[1];
 var cryptButton = document.getElementById("buttonArea2").children[2];
 
-var inputLoadButton = document.getElementById("buttonArea3").children[0];
-var inputDoneButton = document.getElementById("buttonArea3").children[1];
+var inputDoneButton = document.getElementById("buttonArea3").children[0];
+var inputLoadButton = document.getElementById("buttonArea3").children[1];
 var inputKeyBox = document.getElementById("keyBox2").children[0];
 
 var contextMenuOn = false; 
-messageBox.value = "paste or type your message here....";
-inputKeyBox.value = "\npaste your key here...";
+var messageBoxDefault = "paste or type your message here....";
+var inputKeyBoxDefault = "\npaste your key here and click load...";
+
+
+messageBox.value = messageBoxDefault; 
+inputKeyBox.value = inputKeyBoxDefault;
 
 loadDiv.style.display = "none";
 aboutDiv.style.display ="none";
@@ -862,7 +866,7 @@ newKeyButton.onclick = function() {
 cryptButton.onclick = function() {
 	var message = messageBox.value;
 	
-	if(message == "paste or type your message here...."){
+	if(message == messageBoxDefault){
 		message == "Invalid Message!";
 		blinkRed(messageBox); 
 	}
@@ -879,7 +883,7 @@ cryptButton.onclick = function() {
 };
 
 loadButton.onclick = function() {
-	inputKeyBox.value = "\npaste your key here...";
+	inputKeyBox.value = inputKeyBoxDefault;
 	messageDiv.style.display = "none";
 	loadDiv.style.display = '';
 };
@@ -889,7 +893,7 @@ loadButton.onclick = function() {
 
 messageBox.onfocus = function() {
 
-	if(messageBox.value == "paste or type your message here....") {
+	if(messageBox.value == messageBoxDefault) {
 		messageBox.value = "";
 	}
 
@@ -899,7 +903,7 @@ messageBox.onfocus = function() {
 messageBox.onmouseout = function() {
 
 	if(messageBox.value == "" && !contextMenuOn) {
-		messageBox.value = "paste or type your message here....";
+		messageBox.value = messageBoxDefault;
 		messageBox.blur();
 	}
 	
@@ -938,7 +942,7 @@ inputDoneButton.onclick = function() {
 }
 
 inputKeyBox.onfocus = function() {
-	if(inputKeyBox.value == "\npaste your key here...") {
+	if(inputKeyBox.value == inputKeyBoxDefault) {
 		inputKeyBox.value = "";
 	}
 
@@ -946,7 +950,7 @@ inputKeyBox.onfocus = function() {
 
 inputKeyBox.onmouseout = function() {
 	if(inputKeyBox.value == "" && !contextMenuOn) {
-		inputKeyBox.value = "\npaste your key here...";
+		inputKeyBox.value = inputKeyBoxDefault;
 		inputKeyBox.blur(); 
 	}
 };
