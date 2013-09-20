@@ -696,7 +696,7 @@ function EnigmaXMachine(){
 		}
 		
 		if(thinkDingKey.length < 78) {
-			output = "Invalid Key!"; 
+			output = "invalid key\0"; 
 		}
 		else {		
 								
@@ -793,7 +793,7 @@ function EnigmaXMachine(){
 		}
 		//if message is not thinkDing or ascii, or is to short
 		else {
-			outputMessage = "Invalid Message!"; 
+			outputMessage = "invalid message\0"; 
 		}
 		
 		return outputMessage; 
@@ -823,8 +823,8 @@ var inputLoadButton = document.getElementById("buttonArea3").children[1];
 var inputKeyBox = document.getElementById("keyBox2").children[0];
 
 var contextMenuOn = false; 
-var messageBoxDefault = "paste or type your message here....";
-var inputKeyBoxDefault = "\npaste your key here and click load...";
+var messageBoxDefault = "paste or type your message here...\0";
+var inputKeyBoxDefault = "\npaste your key here and click load...\0";
 
 
 messageBox.value = messageBoxDefault; 
@@ -867,14 +867,14 @@ cryptButton.onclick = function() {
 	var message = messageBox.value;
 	
 	if(message == messageBoxDefault){
-		message == "Invalid Message!";
+		message == "invalid message\0";
 		blinkRed(messageBox); 
 	}
 	else {
 		message = enigmaXMachine.crypt(message);
 	}
 	
-	if(message == "Invalid Message!") {
+	if(message == "invalid message\0") {
 		blinkRed(messageBox); 
 	}
 	else {
@@ -927,7 +927,7 @@ keyBox.onclick = function() {
 
 inputLoadButton.onclick = function() {
 	var thinkDingKey = enigmaXMachine.loadKey(inputKeyBox.value); 	
-	if(thinkDingKey == "Invalid Key!") {
+	if(thinkDingKey == "invalid key\0") {
 		blinkRed(inputKeyBox); 
 	}
 	else {
