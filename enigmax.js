@@ -830,8 +830,8 @@ var inputKeyBoxDefault = "\npaste your key here and click load...\0";
 messageBox.value = messageBoxDefault; 
 inputKeyBox.value = inputKeyBoxDefault;
 
-loadDiv.style.display = "none";
-aboutDiv.style.display ="none";
+//loadDiv.style.display = "none";
+//aboutDiv.style.display ="none";
 
 enigmaXButton.style.color = "#333"; 
 enigmaXButton.style.backgroundColor = "#ccc";
@@ -885,7 +885,7 @@ cryptButton.onclick = function() {
 loadButton.onclick = function() {
 	inputKeyBox.value = inputKeyBoxDefault;
 	messageDiv.style.display = "none";
-	loadDiv.style.display = '';
+	loadDiv.style.display = 'inline';
 };
 
 
@@ -937,7 +937,7 @@ inputLoadButton.onclick = function() {
 };
 
 inputDoneButton.onclick = function() {
-	messageDiv.style.display = '';
+	messageDiv.style.display = "inline";
 	loadDiv.style.display = 'none';
 }
 
@@ -960,8 +960,8 @@ inputKeyBox.oncontextmenu = function() {
 }
 
 enigmaXButton.onclick = function() {
-	keyBox.style.display = '';
-	messageDiv.style.display = '';
+	keyBox.style.display = "inline";
+	messageDiv.style.display = "inline";
 	aboutDiv.style.display = 'none';
 	loadDiv.style.display = 'none';
 	
@@ -979,7 +979,7 @@ enigmaXButton.onclick = function() {
 aboutButton.onclick = function() {
 	keyBox.style.display = 'none';
 	messageDiv.style.display = 'none';
-	aboutDiv.style.display = '';
+	aboutDiv.style.display = "block";
 	loadDiv.style.display = 'none';
 	
 	enigmaXButton.style.color = ''; 
