@@ -408,6 +408,7 @@ function EnigmaCore() {
 	
 }
 
+
 //................ASCII / Enigma Code Converter prototype.....................
 function AsciiEnigmaConverter() {
 
@@ -479,8 +480,6 @@ function AsciiEnigmaConverter() {
 	
 	
 }
-
-
 
 //....................Think Ding Converter prototype.....................
 function ThinkDinger() {
@@ -876,10 +875,10 @@ function EnigmaXMachine(){
 
 
 //.................DOM Handlers.....................
+
 var messageDiv = document.getElementById("messageDiv");
 var loadDiv = document.getElementById("loadDiv");
 var aboutDiv = document.getElementById("aboutDiv");
-
 
 var keyBox = document.getElementById("keyBox1").children[0];
 var messageBox = document.getElementById("messageBox").children[0];
@@ -900,175 +899,120 @@ var messageBoxDefault = "paste or type your message here...\0";
 var inputKeyBoxDefault = "\npaste your key here and click load...\0";
 
 
-messageBox.value = messageBoxDefault; 
-inputKeyBox.value = inputKeyBoxDefault;
-
-//loadDiv.style.display = "none";
-//aboutDiv.style.display ="none";
+//messageBox.value = messageBoxDefault; 
+//inputKeyBox.value = inputKeyBoxDefault;
 
 enigmaXButton.style.color = "#333"; 
 enigmaXButton.style.backgroundColor = "#ccc";
 enigmaXButton.style.borderColor = "#ccc"; 
 
 
-//.......................The Program......................
-var enigmaXMachine = new EnigmaXMachine();
 
-//create a new key in the enigmaX machine and
-//display the key in the keybox 
-keyBox.value = 	enigmaXMachine.newKey(); 
-	
+loadDiv.style.display = "block"; 
+inputDoneButton.style.display = "none"; 
+inputLoadButton.style.display = "none"; 
+
+inputKeyBox.value = "LKJ-AAA-AAA-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 
-//blinks the border of boxes red when user
-//sends invalid input
-function blinkRed(element) {
-	element.style.borderColor = "red";
-	setTimeout(function(){element.style.borderColor = '';},250);
+//...........Basic Enigma.....................
+enigmaCore = new EnigmaCore();
+enigmaCore.turnOnDoubleStep(); 
+
+var key = {	
+	rotorSet: "LKJ",
+	startSet: "AAA",
+	ringSet: "AAA",
+	plugboard: "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+};
+
+var reflector = new Rotor("YRUHQSLDPXNGOKMIEBFZCWVJATA"); 
+//takes a message string and pushes 
+//through the rotor
+
+reflector.getSubStr = function(message) {
+	var output = ""; 
+	for(var i=0; i < message.length; i++){
+		output = output +this.getSubChar(message[i]); 
+	}
+	return output; 
+}
+
+//takes a message string and reverse
+//pushes it through the rotor
+reflector.getRevSubStr = function(message) {
+	var output = ""; 
+	for(var i=0; i < message.length; i++){
+		output = output +this.getRevSubChar(message[i]); 
+	}
+	return output; 
 
 }
-				
-//.........Event Handlers..............				
 
 
-newKeyButton.onclick = function() {
-	keyBox.value = 	enigmaXMachine.newKey(); 
-};
+var crypt = function(message) {
+	enigmaCore.setRotors();
+	
+	//push through rotors
+	message = enigmaCore.encrypt(message); 	
+
+	//push through reflector
+	message = reflector.getSubStr(message); 
+	
+	//reset rotors 
+	enigmaCore.setRotors()
+
+	//reverse push through rotors
+	message = enigmaCore.decrypt(message); 
+
+	return message; 
+}
+
+var message = "AAA"; 
+
+//.........Do stuff................
+
 
 
 cryptButton.onclick = function() {
-	var message = messageBox.value;
-	
-	if(message == messageBoxDefault){
-		message == "invalid message\0";
-		blinkRed(messageBox); 
-	}
-	else {
-		message = enigmaXMachine.crypt(message);
-	}
-	
-	if(message == "invalid message\0") {
-		blinkRed(messageBox); 
-	}
-	else {
-		messageBox.value = message; 
-	}
-};
+	enigmaCore.setRotors(); 
+	messageBox.value= crypt(messageBox.value); 
+}
 
 loadButton.onclick = function() {
-	inputKeyBox.value = inputKeyBoxDefault;
-	messageDiv.style.display = "none";
-	loadDiv.style.display = 'inline';
-};
-
-
-
-
-messageBox.onfocus = function() {
-
-	if(messageBox.value == messageBoxDefault) {
-		messageBox.value = "";
-	}
-
-};
-
-
-messageBox.onmouseout = function() {
-
-	if(messageBox.value == "" && !contextMenuOn) {
-		messageBox.value = messageBoxDefault;
-		messageBox.blur();
-	}
 	
-};
-
-messageBox.oncontextmenu = function() {
-	contextMenuOn = true; 
-}
-
-document.onclick = function() {
-	contextMenuOn = false; 
-}
-
-/*window.blur = function() {
-	contextMenuOn = false; 
-}*/
-
-keyBox.onclick = function() {
-	keyBox.select();
-}
-
-inputLoadButton.onclick = function() {
-	var thinkDingKey = enigmaXMachine.loadKey(inputKeyBox.value); 	
-	if(thinkDingKey == "invalid key\0") {
-		blinkRed(inputKeyBox); 
-	}
-	else {
-		keyBox.value = thinkDingKey;
-					
-	}
-};
-
-inputDoneButton.onclick = function() {
-	messageDiv.style.display = "inline";
-	loadDiv.style.display = 'none';
-}
-
-inputKeyBox.onfocus = function() {
-	if(inputKeyBox.value == inputKeyBoxDefault) {
-		inputKeyBox.value = "";
-	}
-
-};
-
-inputKeyBox.onmouseout = function() {
-	if(inputKeyBox.value == "" && !contextMenuOn) {
-		inputKeyBox.value = inputKeyBoxDefault;
-		inputKeyBox.blur(); 
-	}
-};
-
-inputKeyBox.oncontextmenu = function() {
-	contextMenuOn = true; 
-}
-
-enigmaXButton.onclick = function() {
-	keyBox.style.display = "inline";
-	messageDiv.style.display = "inline";
-	aboutDiv.style.display = 'none';
-	loadDiv.style.display = 'none';
+	var keyValues = inputKeyBox.value.split('-'); 
 	
-	enigmaXButton.style.color = "#333"; 
-	enigmaXButton.style.backgroundColor = "#ccc";
-	enigmaXButton.style.borderColor = "#ccc"; 
-	
-	aboutButton.style.color = ''; 
-	aboutButton.style.backgroundColor = '';
-	aboutButton.style.borderColor = ''; 
+	key.rotorSet = keyValues[0];
+	key.startSet = keyValues[1];
+	key.ringSet = keyValues[2];
+	key.plugboard = keyValues[3];	
 
 	
-}
-
-aboutButton.onclick = function() {
-	keyBox.style.display = 'none';
-	messageDiv.style.display = 'none';
-	aboutDiv.style.display = "block";
-	loadDiv.style.display = 'none';
+	keyBox.value = 	"rotors:"+ key.rotorSet + '\n' +
+					"start:" + key.startSet + " rings:" + key.ringSet + '\n' +
+					"plugboard:" + key.plugboard;
 	
-	enigmaXButton.style.color = ''; 
-	enigmaXButton.style.backgroundColor = '';
-	enigmaXButton.style.borderColor = ''; 
-	
-	aboutButton.style.color = "#333"; 
-	aboutButton.style.backgroundColor = "#ccc";
-	aboutButton.style.borderColor = "#ccc"; 
-
+	enigmaCore.setKey(key);
+	enigmaCore.setRings(); 
 	
 }
 
 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+/*
+
+
+*/
+
+
+
+
 
