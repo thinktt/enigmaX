@@ -1,7 +1,10 @@
 
 *********About************
 coded by Tobias Toland 
-version ♞♞
+version BETA
+encryption engine ♞♞ 
+
+If anyone is looking at this (unlikely) this program is still being develpoped but is almost done. 
 
 Enigma X is based on the German WWII code machine. Since coding Enigma simulators is popular I wanted to do something unique. This is my attempt to make a more secure Enigma using the basic components of the original machine. It was also a way for me to learn JavaScript, and CSS.
 
