@@ -486,7 +486,8 @@ function AsciiEnigmaConverter() {
 function ThinkDinger() {
 	
 	var basicSet =    "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	var thinkDingSet ="☀☢♗☯☠✈♞❂☭✂☏☽✎✿☮❉♕✪✌☸☹☁♬★♖☂";
+	var thinkDingSet ="♆☢♗☯☠✈♞❂☭✂☏☾✎✿☮❉♕✪♙☸☹✸♬★♖☂";
+
 	var output = ""
 	
 	//converts Enigma Code to Think Ding code
@@ -515,7 +516,8 @@ function ThinkDinger() {
 function StringTester() {
 
 	var basicSet =    "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	var thinkDingSet ="☀☢♗☯☠✈♞❂☭✂☏☽✎✿☮❉♕✪✌☸☹☁♬★♖☂";
+	var thinkDingSet ="♆☢♗☯☠✈♞❂☭✂☏☾✎✿☮❉♕✪♙☸☹✸♬★♖☂";
+
 	
 	
 	this.isEnigmaCode = function(input) {
