@@ -1038,7 +1038,9 @@ function EnigmaXMachine(){
 var messageDiv = document.getElementById("messageDiv");
 var loadDiv = document.getElementById("loadDiv");
 var aboutDiv = document.getElementById("aboutDiv");
+var eRegDiv = document.getElementById("eRegDiv");
 
+var theX = document.getElementById("theX");
 
 var keyBox = document.getElementById("keyBox1").children[0];
 var messageBox = document.getElementById("messageBox").children[0];
@@ -1196,6 +1198,7 @@ enigmaXButton.onclick = function() {
 	messageDiv.style.display = "inline";
 	aboutDiv.style.display = 'none';
 	loadDiv.style.display = 'none';
+	eRegDiv.style.display = 'none';
 	
 	enigmaXButton.style.color = "#333"; 
 	enigmaXButton.style.backgroundColor = "#ccc";
@@ -1213,6 +1216,7 @@ aboutButton.onclick = function() {
 	messageDiv.style.display = 'none';
 	aboutDiv.style.display = "block";
 	loadDiv.style.display = 'none';
+	eRegDiv.style.display = 'none';
 	
 	enigmaXButton.style.color = ''; 
 	enigmaXButton.style.backgroundColor = '';
@@ -1221,13 +1225,71 @@ aboutButton.onclick = function() {
 	aboutButton.style.color = "#333"; 
 	aboutButton.style.backgroundColor = "#ccc";
 	aboutButton.style.borderColor = "#ccc"; 
-
 	
 }
 
+theX.onclick = function() {
+	/*keyBox.style.display = 'none';
+	messageDiv.style.display = 'none';
+	aboutDiv.style.display = "none";
+	loadDiv.style.display = 'none';
+	eRegDiv.style.display = 'block';
+	
+	console.log(theX.style.marginTop); 
+	
+	//console.log(theX.style.marginTop); 
+	*/
+
+	dropX(); 
+}
+
+var dropX = function() {
+
+	var down = 0;
+	var left = 0;
+	theX.style.fontStyle = "italic"; 
+	var timer = setInterval(function() {
+		
+		theX.style.marginTop = ( down += 10 ) + "px";
+		theX.style.marginLeft = ( left += 3) +"px";
+		
+		// clear the timer at 400px to stop the animation
+		if ( down == 700 ) {
+			clearInterval(timer);
+			theX.style.display = "none";
+			enigmaRegular(); 
+		}
+	}, 1);
+
+
+}
+
+var enigmaRegular = function() {
+	keyBox.style.display = 'none';
+	messageDiv.style.display = 'none';
+	aboutDiv.style.display = "none";
+	loadDiv.style.display = 'none';
+	eRegDiv.style.display = 'block';
+	
+} 
+
+
+
 
  
- 
- 
+//console.log(parseInt("100px".match(/\d+/)[0])+100+"px");  
  
 
+/*
+setTimeout(function(){element.style.borderColor = '';},250);
+
+var marginTop = parseInt(element.style.marginTop.match(/\d+/)[0]);
+	console.log(parseInt(element.style.marginTop.match(/\d+/)[0])); 
+
+	var dropDown =function(element){
+		theX.style.marginTop = parseInt(theX.style.marginTop.match(/\d+/)[0]) +1;
+	}
+	
+
+
+*/

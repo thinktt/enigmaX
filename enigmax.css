@@ -20,22 +20,6 @@ textarea::-moz-selection{
 }
 
 
-
-/* 
- textarea::selection {
-	background: #999999;
-}
-
-textarea::-moz-selection{
-	background:#999999;
-}
-
-textarea::-webkit-selection {
-	background:#999999;
-}
-*/
-
-
 input:focus, select:focus, textarea:focus {
 	outline:none;
 }
@@ -45,6 +29,7 @@ input:focus, select:focus, textarea:focus {
 	/*border: 1px solid red;*/
 	margin: 0 auto;
 	font-size: 500%;
+	cursor:default;
 	
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -54,6 +39,10 @@ input:focus, select:focus, textarea:focus {
 	user-select: none;
 }
 
+#theX {
+	display: inline;
+	position: absolute;
+}
 
 
 #buttonArea1 {
@@ -77,14 +66,14 @@ input:focus, select:focus, textarea:focus {
 	
 }
 
-#keyBox1, #keyBox2{
+#keyBox1, #keyBox2, .keyBox{
 	width: 750px;
 	margin: 0 auto;
 	margin-top: 8px;
 	
 }
 
-#keyBox1 textarea, #keyBox2 textarea {
+#keyBox1 textarea, #keyBox2 textarea, .keyBox textarea{
 	width: 750px;
 	height: 95px;
 	margin: 0 auto;
@@ -104,14 +93,14 @@ input:focus, select:focus, textarea:focus {
 	
 }
 
-#messageBox {
+#messageBox, #messageBoxEReg {
 	width: 750px;
 	margin: 0 auto;
 	margin-top: 8px;
 		
 }
 
-#messageBox textarea {
+#messageBox textarea, #messageBoxEReg textarea {
 	width: 750px;
 	height: 450px;
 	margin: 0 auto;
@@ -127,9 +116,15 @@ input:focus, select:focus, textarea:focus {
 	
 }
 
+#messageBoxEReg textarea{
+ height: 350px;
+
+}
 
 
-#buttonArea2 {
+
+
+#buttonArea2, #buttonAreaEReg{
 	width: 31.5em; 
 	height: 1.5em;
 	margin: 0 auto;
@@ -255,11 +250,9 @@ a:hover, a:active {
 	
 } 
 
-#aboutDiv {
+#aboutDiv, #loadDiv, #eRegDiv {
 	display: none;
 }
 	
-#loadDiv {
-	display: none; 
-}
+
 
