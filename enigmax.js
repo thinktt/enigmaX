@@ -408,6 +408,164 @@ function EnigmaCore() {
 	
 }
 
+
+//...............Enigma Regular Prototype.....................
+function EnigmaRegular() {
+
+	var enigmaCore = new EnigmaCore();
+	enigmaCore.turnOnDoubleStep(); 
+	
+	//default key
+	var key = {	
+		rotorSet: "JKL",
+		startSet: "AAA",
+		ringSet:  "AAA",
+		plugboard: "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	};
+	
+	//reflector built from a non moving rotor
+	var reflector = new Rotor("YRUHQSLDPXNGOKMIEBFZCWVJATA"); 
+	
+	
+	//takes a message string and pushes
+	//through the relector
+	reflector.getSubStr = function(message) {
+		var output = ""; 
+		for(var i=0; i < message.length; i++){
+			output = output +this.getSubChar(message[i]); 
+		}
+		return output; 
+	};
+
+	//takes a message string and reverse
+	//pushes it through the reflector
+	reflector.getRevSubStr = function(message) {
+		var output = ""; 
+		for(var i=0; i < message.length; i++){
+			output = output +this.getRevSubChar(message[i]); 
+		}
+		return output; 
+
+	};
+
+
+	this.crypt = function(message) {
+		
+		//convert everything to uppercase
+		message = message.toUpperCase();
+		
+		//find any enigma charachters (alphabet)
+		message = message.match(/[A-Z]/g);
+			
+		
+		if(message != null) {
+			
+			//turn message back in to a single string
+			message = message.join(''); 
+			
+			//set the rotors to their start position
+			enigmaCore.setRotors();
+			
+			//push through rotors
+			message = enigmaCore.encrypt(message); 	
+
+			//push through reflector
+			message = reflector.getSubStr(message); 
+			
+			//reset rotors 
+			enigmaCore.setRotors()
+
+			//reverse push through rotors
+			message = enigmaCore.decrypt(message); 
+		} 
+		else {
+			message = "invalid message\0"; 
+		}
+		
+		return message; 
+	};
+	
+	//takes a key object and set it in enigmaCore
+	this.setKey = function(key){
+				
+		var revKey = {rotorSet:"", startSet:"", ringSet:"", plugboard:""};
+		
+		//rotors are in reverse order in Enigma Regular vs 
+		//Enigma Core, this reverses them
+		revKey.rotorSet = key.rotorSet.split("").reverse().join("");
+		revKey.startSet = key.startSet.split("").reverse().join("");
+		revKey.ringSet = key.ringSet.split("").reverse().join("");
+		revKey.plugboard = key.plugboard;
+		
+				
+		enigmaCore.setKey(revKey);
+		enigmaCore.setRings(); 
+	};
+	
+	//test the pluboard to make sure it has
+	//all 26 letters of the aphabet
+	var plugsAreGood = function(plugboard) {
+		var basicSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		var output = true; 
+		
+		//check for all letters of the alphabet
+		for(var i=0; i< 26; i++)
+		{
+			if( plugboard.indexOf(basicSet[i]) === -1) {
+				output = false; 
+			}
+		}
+		
+		return output; 
+	};
+	
+	this.loadKey = function(keyString) {
+		
+		var output = ""; 
+		
+		//convert keystring to uppercase
+		keyString = keyString.toUpperCase(); 
+		
+		//capture only the key part
+		keyString = keyString.match(/[A-Z]{3}-[A-Z]{3}-[A-Z]{3}-[A-Z]{26}/);
+					
+		//if keystring was not found
+		if(keyString === null) {
+			output="Invalid Key\0"; 
+		}
+		//break the key down and check the plugboard
+		else {
+			keyString = keyString[0];
+			keyString = keyString.split('\n'); 
+			keyString = keyString[0].split('-'); 
+			
+			key.rotorSet = keyString[0];
+			key.startSet = keyString[1];
+			key.ringSet = keyString[2];
+			key.plugboard = keyString[3];	
+
+			
+			//if pluboard is good set the key
+			if(plugsAreGood(key.plugboard)){
+				output ="rotors:"+ key.rotorSet + '\n' +
+						"start:" + key.startSet + " rings:" + key.ringSet + '\n' +
+						"plugboard:" + key.plugboard;
+						
+				enigmaRegular.setKey(key); 
+			}
+			else {
+				oupput="Plugboard settings must have all 26 aphabet letters\0";
+			}
+		}
+		
+		return output; 
+	};
+	
+	//set the default settings on new Enigma Regular
+	this.setKey(key); 
+}
+
+
 //................ASCII / Enigma Code Converter prototype.....................
 function AsciiEnigmaConverter() {
 
@@ -479,7 +637,6 @@ function AsciiEnigmaConverter() {
 	
 	
 }
-
 
 
 //....................Think Ding Converter prototype.....................
