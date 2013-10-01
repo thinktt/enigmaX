@@ -159,7 +159,7 @@ function EnigmaCore() {
 		
 		for(var i=0; i< rotorArray.length; i++) {
 			rotorArray[i].setRing(ringSet[i]); 
-			console.log(rotorArray[i].getRingSet()); 
+			//console.log(rotorArray[i].getRingSet()); 
 		}
 	};
 	
@@ -531,7 +531,7 @@ function EnigmaRegular() {
 					
 		//if keystring was not found
 		if(keyString === null) {
-			output="Invalid Key\0"; 
+			output="invalid key\0"; 
 		}
 		//break the key down and check the plugboard
 		else {
@@ -554,7 +554,7 @@ function EnigmaRegular() {
 				enigmaRegular.setKey(key); 
 			}
 			else {
-				oupput="Plugboard settings must have all 26 aphabet letters\0";
+				output="invalid key\0";
 			}
 		}
 		
@@ -1052,13 +1052,19 @@ var loadButton = document.getElementById("buttonArea2").children[0];
 var newKeyButton = document.getElementById("buttonArea2").children[1];
 var cryptButton = document.getElementById("buttonArea2").children[2];
 
+var inputButtons = document.getElementById("buttonArea3");
 var inputDoneButton = document.getElementById("buttonArea3").children[0];
-var inputLoadButton = document.getElementById("buttonArea3").children[1];
+var inputResetButton = document.getElementById("buttonArea3").children[1];
+var inputLoadButton = document.getElementById("buttonArea3").children[2];
 var inputKeyBox = document.getElementById("keyBox2").children[0];
 
+inputResetButton.style.display = "none"; 
+
 var contextMenuOn = false; 
+var noX = false; 
 var messageBoxDefault = "paste or type your message here...\0";
 var inputKeyBoxDefault = "\npaste your key here and click load...\0";
+var noXKeyBoxDefault =	"\nJKL-AAA-AAA-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 
 messageBox.value = messageBoxDefault; 
@@ -1074,26 +1080,21 @@ enigmaXButton.style.borderColor = "#ccc";
 
 //.......................The Program......................
 var enigmaXMachine = new EnigmaXMachine();
+var enigmaRegular = new EnigmaRegular; 
+ 
 
 //create a new key in the enigmaX machine and
 //display the key in the keybox 
 keyBox.value = 	enigmaXMachine.newKey(); 
 	
 
-
-//blinks the border of boxes red when user
-//sends invalid input
-function blinkRed(element) {
-	element.style.borderColor = "red";
-	setTimeout(function(){element.style.borderColor = '';},250);
-
-}
 				
 //.........Event Handlers..............				
 
 
 newKeyButton.onclick = function() {
-	keyBox.value = 	enigmaXMachine.newKey(); 
+	if(noX){} 
+	else{keyBox.value = enigmaXMachine.newKey();}
 };
 
 
@@ -1105,7 +1106,8 @@ cryptButton.onclick = function() {
 		blinkRed(messageBox); 
 	}
 	else {
-		message = enigmaXMachine.crypt(message);
+		if(noX){message = enigmaRegular.crypt(message);} 
+		else{message = enigmaXMachine.crypt(message);}
 	}
 	
 	if(message == "invalid message\0") {
@@ -1116,6 +1118,22 @@ cryptButton.onclick = function() {
 	}
 };
 
+inputLoadButton.onclick = function() {
+	var keyValues;
+	
+	if(noX){keyValues = enigmaRegular.loadKey(inputKeyBox.value);} 
+	else{keyValues = enigmaXMachine.loadKey(inputKeyBox.value);} 	
+	
+	if(keyValues == "invalid key\0") {
+		blinkRed(inputKeyBox); 
+	}
+	else {
+		keyBox.value = keyValues;
+	}
+};
+
+
+
 loadButton.onclick = function() {
 	inputKeyBox.value = inputKeyBoxDefault;
 	messageDiv.style.display = "none";
@@ -1124,23 +1142,18 @@ loadButton.onclick = function() {
 
 
 
-
 messageBox.onfocus = function() {
-
 	if(messageBox.value == messageBoxDefault) {
 		messageBox.value = "";
 	}
-
 };
 
 
 messageBox.onmouseout = function() {
-
 	if(messageBox.value == "" && !contextMenuOn) {
 		messageBox.value = messageBoxDefault;
 		messageBox.blur();
 	}
-	
 };
 
 messageBox.oncontextmenu = function() {
@@ -1151,24 +1164,9 @@ document.onclick = function() {
 	contextMenuOn = false; 
 }
 
-/*window.blur = function() {
-	contextMenuOn = false; 
-}*/
-
 keyBox.onclick = function() {
 	keyBox.select();
 }
-
-inputLoadButton.onclick = function() {
-	var thinkDingKey = enigmaXMachine.loadKey(inputKeyBox.value); 	
-	if(thinkDingKey == "invalid key\0") {
-		blinkRed(inputKeyBox); 
-	}
-	else {
-		keyBox.value = thinkDingKey;
-					
-	}
-};
 
 inputDoneButton.onclick = function() {
 	messageDiv.style.display = "inline";
@@ -1176,13 +1174,17 @@ inputDoneButton.onclick = function() {
 }
 
 inputKeyBox.onfocus = function() {
-	if(inputKeyBox.value == inputKeyBoxDefault) {
+	if(inputKeyBox.value == inputKeyBoxDefault && !noX) {
 		inputKeyBox.value = "";
 	}
 
 };
 
 inputKeyBox.onmouseout = function() {
+	if(noX) {
+		inputKeyBox.value = inputKeyBox.value.toUpperCase(); 
+	}
+
 	if(inputKeyBox.value == "" && !contextMenuOn) {
 		inputKeyBox.value = inputKeyBoxDefault;
 		inputKeyBox.blur(); 
@@ -1198,8 +1200,7 @@ enigmaXButton.onclick = function() {
 	messageDiv.style.display = "inline";
 	aboutDiv.style.display = 'none';
 	loadDiv.style.display = 'none';
-	eRegDiv.style.display = 'none';
-	
+		
 	enigmaXButton.style.color = "#333"; 
 	enigmaXButton.style.backgroundColor = "#ccc";
 	enigmaXButton.style.borderColor = "#ccc"; 
@@ -1207,8 +1208,6 @@ enigmaXButton.onclick = function() {
 	aboutButton.style.color = ''; 
 	aboutButton.style.backgroundColor = '';
 	aboutButton.style.borderColor = ''; 
-
-	
 }
 
 aboutButton.onclick = function() {
@@ -1216,7 +1215,7 @@ aboutButton.onclick = function() {
 	messageDiv.style.display = 'none';
 	aboutDiv.style.display = "block";
 	loadDiv.style.display = 'none';
-	eRegDiv.style.display = 'none';
+	
 	
 	enigmaXButton.style.color = ''; 
 	enigmaXButton.style.backgroundColor = '';
@@ -1228,18 +1227,13 @@ aboutButton.onclick = function() {
 	
 }
 
-theX.onclick = function() {
-	/*keyBox.style.display = 'none';
-	messageDiv.style.display = 'none';
-	aboutDiv.style.display = "none";
-	loadDiv.style.display = 'none';
-	eRegDiv.style.display = 'block';
-	
-	console.log(theX.style.marginTop); 
-	
-	//console.log(theX.style.marginTop); 
-	*/
+inputResetButton.onclick = function(){
+	inputKeyBox.value = noXKeyBoxDefault;
+}
 
+
+
+theX.onclick = function() {
 	dropX(); 
 }
 
@@ -1247,49 +1241,52 @@ var dropX = function() {
 
 	var down = 0;
 	var left = 0;
-	theX.style.fontStyle = "italic"; 
+	var rotate = 0; 
+	
 	var timer = setInterval(function() {
 		
-		theX.style.marginTop = ( down += 10 ) + "px";
-		theX.style.marginLeft = ( left += 3) +"px";
-		
-		// clear the timer at 400px to stop the animation
-		if ( down == 700 ) {
+		rotate++;
+		theX.style['-webkit-transform'] = "rotate(" + rotate +"deg)";
+		theX.style['MozTransform'] = "rotate(" + rotate +"deg)";
+		theX.style['-ms-transform'] = "rotate(" + rotate +"deg)";
+		theX.style['-o-transform'] = "rotate(" + rotate +"deg)";
+				
+		theX.style.marginTop = ( down += 2 ) + "px";
+				
+		//when the x has dropped far enough it dissapears 
+		//and noX mode loads (Enigma Regular)
+		if (down == 750) {
 			clearInterval(timer);
 			theX.style.display = "none";
-			enigmaRegular(); 
+			switchToNoX(); 
 		}
-	}, 1);
+	}, 1); 
+}
 
+//blinks the border of boxes red when user
+//sends invalid input
+function blinkRed(element) {
+	element.style.borderColor = "red";
+	setTimeout(function(){element.style.borderColor = '';},250);
 
 }
 
-var enigmaRegular = function() {
-	keyBox.style.display = 'none';
-	messageDiv.style.display = 'none';
-	aboutDiv.style.display = "none";
-	loadDiv.style.display = 'none';
-	eRegDiv.style.display = 'block';
-	
+
+//switches machine interface to noX aka 
+//Enigma Regular
+var switchToNoX = function() {
+	noX = true; 
+	enigmaXButton.innerHTML = "enigma";
+	newKeyButton.innerHTML ="";
+	newKeyButton.className ="buttonDead";
+	keyBox.value = enigmaRegular.loadKey(noXKeyBoxDefault); 
+	inputKeyBoxDefault = noXKeyBoxDefault;
+	inputKeyBox.value = noXKeyBoxDefault;
+	inputResetButton.style.display = "inline"; 
+	inputButtons.style.width = "31.5em"; 
+	eRegDiv.style.display = "block"; 
 } 
 
 
 
-
  
-//console.log(parseInt("100px".match(/\d+/)[0])+100+"px");  
- 
-
-/*
-setTimeout(function(){element.style.borderColor = '';},250);
-
-var marginTop = parseInt(element.style.marginTop.match(/\d+/)[0]);
-	console.log(parseInt(element.style.marginTop.match(/\d+/)[0])); 
-
-	var dropDown =function(element){
-		theX.style.marginTop = parseInt(theX.style.marginTop.match(/\d+/)[0]) +1;
-	}
-	
-
-
-*/

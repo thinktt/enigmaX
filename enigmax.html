@@ -52,12 +52,46 @@
 
 <div id="buttonArea3">
 <div class="button">back</div> 
+<div class="button">reset</div> 
 <div class="button">load</div> 
 </div>
 
 <div id="keyBox2">
 <textarea></textarea>
 </div>
+
+<!----------EReg Div-------------------->
+<div id="eRegDiv">
+
+<p>
+You've found Enigma Mode! Here you can use Enigma X as a regular Enigma simulator. Check the about section to find other online Enigma simulators to talk to. These sites will also help you understand how to use the Enigma if you don't already know. 
+<p>
+
+<p>
+To load a particular key just edit the string in the box above and then click load. The format is as follows. 
+</p>
+
+<h3>
+(rotors-start-rings-plugboard)
+</h3>
+
+<p>
+Enigma X has 26 Rotors for every letter of the aphabet. The following though are useful for communicating with other Enigma simulators that use the German millitary rotors, such as the Enigma M3. 
+</p>
+
+<h3>
+rotor translation:  I=J   II=K   III=L   IV=M   V=N
+</h3>
+
+<p>
+To use the plugboard switch the letters in the aphabet. For intsance if you want A to encode to Z then switch A and Z. You must have all 26 letters of the aphabet, and not have any reapeat letters or the key will not load. 
+<p>
+
+
+
+</div>
+<!----------End of Ereg Div------------>
+
 
 </div>
 <!-------End of Load Div------>
@@ -99,30 +133,6 @@ Enigma X uses <a href="http://crypto.stanford.edu/sjcl/">SJCL</a> to generate ra
 
 <!-------End of About Div------>
 
-<!----------EReg Div-------------------->
-<div id="eRegDiv">
-
-<div id="keyBoxEReg" class="keyBox">
-<textarea readonly ></textarea>
-</div>
-
-<div id="keyBoxInEReg" class="keyBox">
-<textarea></textarea>
-</div>
-
-<div id="buttonAreaEReg">
-<div class="button">load key</div> 
-<div class="button">reset</div> 
-<div class="button">encrypt/decrypt</div> 
-</div>
-
-<div id="messageBoxEReg">
-<textarea></textarea>
-</div>
-
-</div>
-
-<!----------End of Ereg Div------------>
 
 
 

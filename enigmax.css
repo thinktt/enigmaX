@@ -42,6 +42,13 @@ input:focus, select:focus, textarea:focus {
 #theX {
 	display: inline;
 	position: absolute;
+	
+	
+	/*-webkit-transform: rotate(0deg);
+	-moz-transform: rotate(0deg);
+	-ms-transform: rotate(9deg);
+	-o-transform: rotate(0deg);*/
+	
 }
 
 
@@ -221,7 +228,7 @@ a:hover, a:active {
 	color:white;
 }  
 
-#aboutDiv, #aboutDiv h3  {
+#aboutDiv, #aboutDiv h3, #eRegDiv, #eRegDiv h3 {
 	width: 650px;
 	
 	margin: 0 auto;
@@ -240,7 +247,7 @@ a:hover, a:active {
 	text-align:justify;
 }
 
-#aboutDiv h3 {
+#aboutDiv h3, #eRegDiv h3 {
 	text-align:center;
 	font-weight: normal;
 }
