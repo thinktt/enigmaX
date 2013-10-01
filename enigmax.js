@@ -1070,8 +1070,6 @@ var noXKeyBoxDefault =	"\nJKL-AAA-AAA-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 messageBox.value = messageBoxDefault; 
 inputKeyBox.value = inputKeyBoxDefault;
 
-//loadDiv.style.display = "none";
-//aboutDiv.style.display ="none";
 
 enigmaXButton.style.color = "#333"; 
 enigmaXButton.style.backgroundColor = "#ccc";
@@ -1079,15 +1077,38 @@ enigmaXButton.style.borderColor = "#ccc";
 
 
 //.......................The Program......................
-var enigmaXMachine = new EnigmaXMachine();
+var enigmaXMachine;
 var enigmaRegular = new EnigmaRegular; 
  
 
-//create a new key in the enigmaX machine and
-//display the key in the keybox 
-keyBox.value = 	enigmaXMachine.newKey(); 
+sjcl.random.startCollectors();
+
+var x=0; 
+function checkProgress()
+ {
+	x++;
+	if(sjcl.random.getProgress(6) >= 1){
+			console.log("Ready" + x);
+			clearInterval(intervalHandle); 
+			startEnigmaX(); 
+		}
+	 else {
+			console.log("Generating Key " + x); 
+		}
+}
+
+var loadMcfly =function(){
+	messageBox.value = "hello mcfly!"; 
+}
+var intervalHandle = setInterval(checkProgress, 1);
+
+var startEnigmaX = function() {
+	enigmaXMachine = new EnigmaXMachine();
+	keyBox.value = 	enigmaXMachine.newKey(); 
+};
 	
 
+	
 				
 //.........Event Handlers..............				
 

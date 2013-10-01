@@ -14,6 +14,11 @@ body {
 	background: #999999;
 }
 
+
+textarea {
+	autocomplete: off;
+}
+
 textarea::-moz-selection{
 	background: #4A8CF6;
 	color: white;
