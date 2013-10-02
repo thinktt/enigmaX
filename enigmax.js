@@ -479,7 +479,7 @@ function EnigmaRegular() {
 			message = enigmaCore.decrypt(message); 
 		} 
 		else {
-			message = "invalid message\0"; 
+			message = "invalid\0"; 
 		}
 		
 		return message; 
@@ -531,7 +531,7 @@ function EnigmaRegular() {
 					
 		//if keystring was not found
 		if(keyString === null) {
-			output="invalid key\0"; 
+			output="invalid\0"; 
 		}
 		//break the key down and check the plugboard
 		else {
@@ -554,7 +554,7 @@ function EnigmaRegular() {
 				enigmaRegular.setKey(key); 
 			}
 			else {
-				output="invalid key\0";
+				output="invalid\0";
 			}
 		}
 		
@@ -927,7 +927,7 @@ function EnigmaXMachine(){
 		}
 		
 		if(thinkDingKey.length < 78) {
-			output = "invalid key\0"; 
+			output = "invalid\0"; 
 		}
 		else {		
 								
@@ -1024,7 +1024,7 @@ function EnigmaXMachine(){
 		}
 		//if message is not thinkDing or ascii, or is to short
 		else {
-			outputMessage = "invalid message\0"; 
+			outputMessage = "invalid\0"; 
 		}
 		
 		return outputMessage; 
@@ -1062,9 +1062,10 @@ inputResetButton.style.display = "none";
 
 var contextMenuOn = false; 
 var noX = false; 
-var messageBoxDefault = "paste or type your message here...\0";
-var inputKeyBoxDefault = "\npaste your key here and click load...\0";
+var messageBoxDefault = "paste or type your message here »";
+var inputKeyBoxDefault = "\n« paste your key here and click load »";
 var noXKeyBoxDefault =	"\nJKL-AAA-AAA-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
 
 
 messageBox.value = messageBoxDefault; 
@@ -1079,235 +1080,240 @@ enigmaXButton.style.borderColor = "#ccc";
 //.......................The Program......................
 var enigmaXMachine;
 var enigmaRegular = new EnigmaRegular; 
- 
-
 sjcl.random.startCollectors();
+var thinkDingSet ="♆☢♗☯☠✈♞❂☭✂☏☾✎✿☮❉♕✪♙☸☹✸♬★♖☂";
 
-var x=0; 
-function checkProgress()
+var checkProgress = function()
  {
-	x++;
 	if(sjcl.random.getProgress(6) >= 1){
-			console.log("Ready" + x);
+			console.log("Ready");
 			clearInterval(intervalHandle); 
 			startEnigmaX(); 
 		}
 	 else {
-			console.log("Generating Key " + x); 
+			keyBox.value = "Generating Key\n" + thinkDingSet.slice(0,4) + "\nplease move your mouse around";
+			thinkDingSet = thinkDingSet + thinkDingSet[0];
+			thinkDingSet = thinkDingSet.slice(1); 
 		}
-}
+};
 
-var loadMcfly =function(){
-	messageBox.value = "hello mcfly!"; 
-}
-var intervalHandle = setInterval(checkProgress, 1);
+
+var intervalHandle = setInterval(checkProgress, 200);
 
 var startEnigmaX = function() {
 	enigmaXMachine = new EnigmaXMachine();
-	keyBox.value = 	enigmaXMachine.newKey(); 
+	keyBox.value = 	enigmaXMachine.newKey();
+	loadUI(); 
 };
 	
-
-	
-				
-//.........Event Handlers..............				
-
-
-newKeyButton.onclick = function() {
-	if(noX){} 
-	else{keyBox.value = enigmaXMachine.newKey();}
-};
-
-
-cryptButton.onclick = function() {
-	var message = messageBox.value;
-	
-	if(message == messageBoxDefault){
-		message == "invalid message\0";
-		blinkRed(messageBox); 
-	}
-	else {
-		if(noX){message = enigmaRegular.crypt(message);} 
-		else{message = enigmaXMachine.crypt(message);}
-	}
-	
-	if(message == "invalid message\0") {
-		blinkRed(messageBox); 
-	}
-	else {
-		messageBox.value = message; 
-	}
-};
-
-inputLoadButton.onclick = function() {
-	var keyValues;
-	
-	if(noX){keyValues = enigmaRegular.loadKey(inputKeyBox.value);} 
-	else{keyValues = enigmaXMachine.loadKey(inputKeyBox.value);} 	
-	
-	if(keyValues == "invalid key\0") {
-		blinkRed(inputKeyBox); 
-	}
-	else {
-		keyBox.value = keyValues;
-	}
-};
-
-
-
-loadButton.onclick = function() {
+window.onload = function(){
+	messageBox.value = messageBoxDefault; 
 	inputKeyBox.value = inputKeyBoxDefault;
-	messageDiv.style.display = "none";
-	loadDiv.style.display = 'inline';
-};
-
-
-
-messageBox.onfocus = function() {
-	if(messageBox.value == messageBoxDefault) {
-		messageBox.value = "";
-	}
-};
-
-
-messageBox.onmouseout = function() {
-	if(messageBox.value == "" && !contextMenuOn) {
-		messageBox.value = messageBoxDefault;
-		messageBox.blur();
-	}
-};
-
-messageBox.oncontextmenu = function() {
-	contextMenuOn = true; 
 }
-
-document.onclick = function() {
-	contextMenuOn = false; 
-}
-
-keyBox.onclick = function() {
-	keyBox.select();
-}
-
-inputDoneButton.onclick = function() {
-	messageDiv.style.display = "inline";
-	loadDiv.style.display = 'none';
-}
-
-inputKeyBox.onfocus = function() {
-	if(inputKeyBox.value == inputKeyBoxDefault && !noX) {
-		inputKeyBox.value = "";
-	}
-
-};
-
-inputKeyBox.onmouseout = function() {
-	if(noX) {
-		inputKeyBox.value = inputKeyBox.value.toUpperCase(); 
-	}
-
-	if(inputKeyBox.value == "" && !contextMenuOn) {
-		inputKeyBox.value = inputKeyBoxDefault;
-		inputKeyBox.blur(); 
-	}
-};
-
-inputKeyBox.oncontextmenu = function() {
-	contextMenuOn = true; 
-}
-
-enigmaXButton.onclick = function() {
-	keyBox.style.display = "inline";
-	messageDiv.style.display = "inline";
-	aboutDiv.style.display = 'none';
-	loadDiv.style.display = 'none';
-		
-	enigmaXButton.style.color = "#333"; 
-	enigmaXButton.style.backgroundColor = "#ccc";
-	enigmaXButton.style.borderColor = "#ccc"; 
-	
-	aboutButton.style.color = ''; 
-	aboutButton.style.backgroundColor = '';
-	aboutButton.style.borderColor = ''; 
-}
-
-aboutButton.onclick = function() {
-	keyBox.style.display = 'none';
-	messageDiv.style.display = 'none';
-	aboutDiv.style.display = "block";
-	loadDiv.style.display = 'none';
 	
 	
-	enigmaXButton.style.color = ''; 
-	enigmaXButton.style.backgroundColor = '';
-	enigmaXButton.style.borderColor = ''; 
 	
-	aboutButton.style.color = "#333"; 
-	aboutButton.style.backgroundColor = "#ccc";
-	aboutButton.style.borderColor = "#ccc"; 
-	
-}
-
-inputResetButton.onclick = function(){
-	inputKeyBox.value = noXKeyBoxDefault;
-}
-
-
-
-theX.onclick = function() {
-	dropX(); 
-}
-
-var dropX = function() {
-
-	var down = 0;
-	var left = 0;
-	var rotate = 0; 
-	
-	var timer = setInterval(function() {
-		
-		rotate++;
-		theX.style['-webkit-transform'] = "rotate(" + rotate +"deg)";
-		theX.style['MozTransform'] = "rotate(" + rotate +"deg)";
-		theX.style['-ms-transform'] = "rotate(" + rotate +"deg)";
-		theX.style['-o-transform'] = "rotate(" + rotate +"deg)";
 				
-		theX.style.marginTop = ( down += 2 ) + "px";
-				
-		//when the x has dropped far enough it dissapears 
-		//and noX mode loads (Enigma Regular)
-		if (down == 750) {
-			clearInterval(timer);
-			theX.style.display = "none";
-			switchToNoX(); 
+//..............User Interface.................				
+
+function loadUI() {
+
+	newKeyButton.onclick = function() {
+		if(noX){} 
+		else{keyBox.value = enigmaXMachine.newKey();}
+	};
+
+
+	cryptButton.onclick = function() {
+		var message = messageBox.value;
+		
+		if(message == messageBoxDefault){
+			message == "invalid\0";
+			blinkRed(messageBox); 
 		}
-	}, 1); 
+		else {
+			if(noX){message = enigmaRegular.crypt(message);} 
+			else{message = enigmaXMachine.crypt(message);}
+		}
+		
+		if(message == "invalid\0") {
+			blinkRed(messageBox); 
+		}
+		else {
+			messageBox.value = message; 
+		}
+	};
+
+	inputLoadButton.onclick = function() {
+		var keyValues;
+		
+		if(noX){keyValues = enigmaRegular.loadKey(inputKeyBox.value);} 
+		else{keyValues = enigmaXMachine.loadKey(inputKeyBox.value);} 	
+		
+		if(keyValues == "invalid\0") {
+			blinkRed(inputKeyBox); 
+		}
+		else {
+			keyBox.value = keyValues;
+		}
+	};
+
+
+
+	loadButton.onclick = function() {
+		inputKeyBox.value = inputKeyBoxDefault;
+		messageDiv.style.display = "none";
+		loadDiv.style.display = 'inline';
+	};
+
+
+
+	messageBox.onfocus = function() {
+		if(messageBox.value == messageBoxDefault) {
+			messageBox.value = "";
+		}
+	};
+
+
+	messageBox.onmouseout = function() {
+		if(messageBox.value == "" && !contextMenuOn) {
+			messageBox.value = messageBoxDefault;
+			messageBox.blur();
+		}
+	};
+
+	messageBox.oncontextmenu = function() {
+		contextMenuOn = true; 
+	}
+
+	document.onclick = function() {
+		contextMenuOn = false; 
+	}
+
+	keyBox.onclick = function() {
+		keyBox.select();
+	}
+
+	inputDoneButton.onclick = function() {
+		messageDiv.style.display = "inline";
+		loadDiv.style.display = 'none';
+	}
+
+	inputKeyBox.onfocus = function() {
+		if(inputKeyBox.value == inputKeyBoxDefault && !noX) {
+			inputKeyBox.value = "";
+		}
+
+	};
+
+	inputKeyBox.onmouseout = function() {
+		if(noX) {
+			inputKeyBox.value = inputKeyBox.value.toUpperCase(); 
+		}
+
+		if(inputKeyBox.value == "" && !contextMenuOn) {
+			inputKeyBox.value = inputKeyBoxDefault;
+			inputKeyBox.blur(); 
+		}
+	};
+
+	inputKeyBox.oncontextmenu = function() {
+		contextMenuOn = true; 
+	}
+
+	enigmaXButton.onclick = function() {
+		keyBox.style.display = "inline";
+		messageDiv.style.display = "inline";
+		aboutDiv.style.display = 'none';
+		loadDiv.style.display = 'none';
+			
+		enigmaXButton.style.color = "#333"; 
+		enigmaXButton.style.backgroundColor = "#ccc";
+		enigmaXButton.style.borderColor = "#ccc"; 
+		
+		aboutButton.style.color = ''; 
+		aboutButton.style.backgroundColor = '';
+		aboutButton.style.borderColor = ''; 
+	}
+
+	aboutButton.onclick = function() {
+		keyBox.style.display = 'none';
+		messageDiv.style.display = 'none';
+		aboutDiv.style.display = "block";
+		loadDiv.style.display = 'none';
+		
+		
+		enigmaXButton.style.color = ''; 
+		enigmaXButton.style.backgroundColor = '';
+		enigmaXButton.style.borderColor = ''; 
+		
+		aboutButton.style.color = "#333"; 
+		aboutButton.style.backgroundColor = "#ccc";
+		aboutButton.style.borderColor = "#ccc"; 
+		
+	}
+
+	inputResetButton.onclick = function(){
+		inputKeyBox.value = noXKeyBoxDefault;
+	}
+
+
+
+	theX.onclick = function() {
+		dropX(); 
+	}
+
+	var dropX = function() {
+
+		var down = 0;
+		var left = 0;
+		var rotate = 0; 
+		
+		var timer = setInterval(function() {
+			
+			rotate++;
+			theX.style['-webkit-transform'] = "rotate(" + rotate +"deg)";
+			theX.style['MozTransform'] = "rotate(" + rotate +"deg)";
+			theX.style['-ms-transform'] = "rotate(" + rotate +"deg)";
+			theX.style['-o-transform'] = "rotate(" + rotate +"deg)";
+					
+			theX.style.marginTop = ( down += 2 ) + "px";
+					
+			//when the x has dropped far enough it dissapears 
+			//and noX mode loads (Enigma Regular)
+			if (down == 750) {
+				clearInterval(timer);
+				theX.style.display = "none";
+				switchToNoX(); 
+			}
+		}, 1); 
+	}
+
+	//blinks the border of boxes red when user
+	//sends invalid input
+	function blinkRed(element) {
+		element.style.borderColor = "red";
+		setTimeout(function(){element.style.borderColor = '';},250);
+
+	}
+
+
+	//switches machine interface to noX aka 
+	//Enigma Regular
+	var switchToNoX = function() {
+		noX = true; 
+		enigmaXButton.innerHTML = "enigma";
+		newKeyButton.innerHTML ="";
+		newKeyButton.className ="buttonDead";
+		messageBox.value = messageBoxDefault; 
+		keyBox.value = enigmaRegular.loadKey(noXKeyBoxDefault); 
+		inputKeyBoxDefault = noXKeyBoxDefault;
+		inputKeyBox.value = noXKeyBoxDefault;
+		inputResetButton.style.display = "inline"; 
+		inputButtons.style.width = "31.5em"; 
+		eRegDiv.style.display = "block"; 
+	} 
+
 }
-
-//blinks the border of boxes red when user
-//sends invalid input
-function blinkRed(element) {
-	element.style.borderColor = "red";
-	setTimeout(function(){element.style.borderColor = '';},250);
-
-}
-
-
-//switches machine interface to noX aka 
-//Enigma Regular
-var switchToNoX = function() {
-	noX = true; 
-	enigmaXButton.innerHTML = "enigma";
-	newKeyButton.innerHTML ="";
-	newKeyButton.className ="buttonDead";
-	keyBox.value = enigmaRegular.loadKey(noXKeyBoxDefault); 
-	inputKeyBoxDefault = noXKeyBoxDefault;
-	inputKeyBox.value = noXKeyBoxDefault;
-	inputResetButton.style.display = "inline"; 
-	inputButtons.style.width = "31.5em"; 
-	eRegDiv.style.display = "block"; 
-} 
-
-
 
  

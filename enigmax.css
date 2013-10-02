@@ -44,6 +44,7 @@ input:focus, select:focus, textarea:focus {
 	user-select: none;
 }
 
+
 #theX {
 	display: inline;
 	position: absolute;
@@ -105,6 +106,20 @@ input:focus, select:focus, textarea:focus {
 	
 }
 
+#inputKeyBoxDefault {
+	position: absolute; 
+	diplay: inline; 
+	font-family:  "Segoe UI Symbol", symbol;
+	font-size: 30px;
+	line-height: 31px; 
+	letter-spacing: .02em;
+	text-align:center;
+	margin-left: 4em; 
+	margin-top: 1em;
+}
+
+
+
 #messageBox, #messageBoxEReg {
 	width: 750px;
 	margin: 0 auto;
@@ -112,7 +127,7 @@ input:focus, select:focus, textarea:focus {
 		
 }
 
-#messageBox textarea, #messageBoxEReg textarea {
+#messageBox textarea, #messageBoxEReg textarea{
 	width: 750px;
 	height: 450px;
 	margin: 0 auto;
@@ -121,12 +136,23 @@ input:focus, select:focus, textarea:focus {
 	background-color: #333;
 	font-family:  "Segoe UI Symbol", symbol;
 	font-size: 1em;
-	line-height: 1em;
+	line-height: 1.1em;
 	letter-spacing: .1em;
 	resize: none; 
 	overflow:hidden;
 	
 }
+
+#messageBoxDefault {
+	position: absolute;
+	font-family:  "Segoe UI Symbol", symbol;
+	font-size: 1em;
+	line-height: 1.1em;
+	letter-spacing: .1em;
+	margin-left: .1em; 
+}
+
+
 
 #messageBoxEReg textarea{
  height: 350px;
@@ -255,6 +281,7 @@ a:hover, a:active {
 #aboutDiv h3, #eRegDiv h3 {
 	text-align:center;
 	font-weight: normal;
+	line-height: 1em;
 }
 
 #aboutDiv p {
