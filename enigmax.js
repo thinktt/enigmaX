@@ -394,6 +394,23 @@ function EnigmaCore() {
 		return output; 
 	};
 	
+	//test the pluboard to make sure it has
+	//all 26 letters of the aphabet
+	this.plugsAreGood = function(plugboard) {
+		var basicSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		var output = true; 
+		
+		//check for all letters of the alphabet
+		for(var i=0; i< 26; i++)
+		{
+			if( plugboard.indexOf(basicSet[i]) === -1) {
+				output = false; 
+			}
+		}
+		
+		return output; 
+	};
+	
 	//when new machine made set default rotors
 	this.loadRotorSet("ABCDEFGHIJKLMNOPQRSTUVWXYZ"); 
 	
@@ -502,23 +519,6 @@ function EnigmaRegular() {
 		enigmaCore.setRings(); 
 	};
 	
-	//test the pluboard to make sure it has
-	//all 26 letters of the aphabet
-	var plugsAreGood = function(plugboard) {
-		var basicSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		var output = true; 
-		
-		//check for all letters of the alphabet
-		for(var i=0; i< 26; i++)
-		{
-			if( plugboard.indexOf(basicSet[i]) === -1) {
-				output = false; 
-			}
-		}
-		
-		return output; 
-	};
-	
 	this.loadKey = function(keyString) {
 		
 		var output = ""; 
@@ -546,7 +546,7 @@ function EnigmaRegular() {
 
 			
 			//if pluboard is good set the key
-			if(plugsAreGood(key.plugboard)){
+			if(enigmaCore.plugsAreGood(key.plugboard)){
 				output ="rotors:"+ key.rotorSet + '\n' +
 						"start:" + key.startSet + " rings:" + key.ringSet + '\n' +
 						"plugboard:" + key.plugboard;
@@ -943,9 +943,14 @@ function EnigmaXMachine(){
 		}
 	
 		
-	
-		//set key in enigma core
-		enigmaCore.setKey(key);
+		//finally check the plugboard to make sure it's 
+		//good then set the key in Enigma Core
+		if(enigmaCore.plugsAreGood(key.plugboard)){
+			enigmaCore.setKey(key);
+		}
+		else {
+			output = "invalid\0"; 
+		}
 		
 		return output; 
 	};
@@ -1035,6 +1040,7 @@ function EnigmaXMachine(){
 
 
 //.................DOM Handlers.....................
+var mainDiv = document.getElementById("mainDiv");
 var messageDiv = document.getElementById("messageDiv");
 var loadDiv = document.getElementById("loadDiv");
 var aboutDiv = document.getElementById("aboutDiv");
@@ -1082,10 +1088,20 @@ var enigmaXMachine;
 var enigmaRegular = new EnigmaRegular; 
 sjcl.random.startCollectors();
 var thinkDingSet ="♆☢♗☯☠✈♞❂☭✂☏☾✎✿☮❉♕✪♙☸☹✸♬★♖☂";
+var intervalHandle;
+
+
+var startEnigmaX = function() {
+	enigmaXMachine = new EnigmaXMachine();
+	keyBox.value = 	enigmaXMachine.newKey();
+	messageBox.value = messageBoxDefault; 
+	loadUI(); 
+};
+
 
 var checkProgress = function()
  {
-	if(sjcl.random.getProgress(6) >= 1){
+	if(sjcl.random.getProgress(8) >= 1){
 			console.log("Ready");
 			clearInterval(intervalHandle); 
 			startEnigmaX(); 
@@ -1098,20 +1114,18 @@ var checkProgress = function()
 };
 
 
-var intervalHandle = setInterval(checkProgress, 200);
-
-var startEnigmaX = function() {
-	enigmaXMachine = new EnigmaXMachine();
-	keyBox.value = 	enigmaXMachine.newKey();
-	loadUI(); 
-};
-	
 window.onload = function(){
-	messageBox.value = messageBoxDefault; 
-	inputKeyBox.value = inputKeyBoxDefault;
+	if(sjcl.random.getProgress(8) < 1){
+		intervalHandle = setInterval(checkProgress, 200);
+		messageBox.value = "waiting for key to load..."; 
+		inputKeyBox.value = inputKeyBoxDefault;
+	} 
+	else {
+		startEnigmaX(); 
+	}
+		
 }
-	
-	
+
 	
 				
 //..............User Interface.................				
@@ -1222,11 +1236,15 @@ function loadUI() {
 	}
 
 	enigmaXButton.onclick = function() {
-		keyBox.style.display = "inline";
+		
+		/*keyBox.style.display = "inline";
 		messageDiv.style.display = "inline";
 		aboutDiv.style.display = 'none';
-		loadDiv.style.display = 'none';
-			
+		loadDiv.style.display = 'none';*/
+		
+		mainDiv.style.display ="inline"; 
+		aboutDiv.style.display = 'none';
+		
 		enigmaXButton.style.color = "#333"; 
 		enigmaXButton.style.backgroundColor = "#ccc";
 		enigmaXButton.style.borderColor = "#ccc"; 
@@ -1237,11 +1255,15 @@ function loadUI() {
 	}
 
 	aboutButton.onclick = function() {
-		keyBox.style.display = 'none';
+		
+		/*keyBox.style.display = 'none';
 		messageDiv.style.display = 'none';
 		aboutDiv.style.display = "block";
-		loadDiv.style.display = 'none';
+		loadDiv.style.display = 'none';*/
 		
+		
+		mainDiv.style.display ="none"; 
+		aboutDiv.style.display = "block";
 		
 		enigmaXButton.style.color = ''; 
 		enigmaXButton.style.backgroundColor = '';
