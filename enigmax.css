@@ -13,12 +13,12 @@
 	font-style: normal;
 }*/
 
-@font-face {
+/*@font-face {
 	font-family: 'icomoon';
 	
 	font-weight: normal;
 	font-style: normal;
-}
+}*/
 
 
 @font-face {
@@ -31,6 +31,7 @@
 	unicode-range: U+2600-2750;
 	font-weight: normal;
 	font-style: normal;
+	
 }
 
 
@@ -88,7 +89,7 @@ input:focus, select:focus, textarea:focus {
 
 #theX {
 	display: inline;
-	position: absolute;
+	
 	
 	
 	/*-webkit-transform: rotate(0deg);
@@ -126,6 +127,7 @@ input:focus, select:focus, textarea:focus {
 	width: 750px;
 	margin: 0 auto;
 	margin-top: 8px;
+
 	
 }
 
@@ -146,6 +148,8 @@ input:focus, select:focus, textarea:focus {
 	overflow:hidden;
 	
 	text-align:center;
+	
+	
 	
 }
 

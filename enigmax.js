@@ -1095,6 +1095,7 @@ var startEnigmaX = function() {
 	enigmaXMachine = new EnigmaXMachine();
 	keyBox.value = 	enigmaXMachine.newKey();
 	messageBox.value = messageBoxDefault; 
+	theX.style.position="absolute";
 	loadUI(); 
 };
 
