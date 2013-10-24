@@ -643,7 +643,7 @@ function AsciiEnigmaConverter() {
 function ThinkDinger() {
 	
 	var basicSet =    "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	var thinkDingSet ="♆☢♗☯☠✈♞❂☭✂☏☾✎✿☮❉♕✪♙☸☹✸♬★♖☂";
+	var thinkDingSet ="♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸☹✸♬★♖☂";
 
 	var output = ""
 	
@@ -673,7 +673,7 @@ function ThinkDinger() {
 function StringTester() {
 
 	var basicSet =    "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	var thinkDingSet ="♆☢♗☯☠✈♞❂☭✂☏☾✎✿☮❉♕✪♙☸☹✸♬★♖☂";
+	var thinkDingSet ="♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸☹✸♬★♖☂";
 
 	
 	
@@ -1087,7 +1087,7 @@ enigmaXButton.style.borderColor = "#ccc";
 var enigmaXMachine;
 var enigmaRegular = new EnigmaRegular; 
 sjcl.random.startCollectors();
-var thinkDingSet ="♆☢♗☯☠✈♞❂☭✂☏☾✎✿☮❉♕✪♙☸☹✸♬★♖☂";
+var thinkDingSet ="♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸☹✸♬★♖☂";
 var intervalHandle;
 
 
