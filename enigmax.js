@@ -1095,7 +1095,7 @@ var startEnigmaX = function() {
 	enigmaXMachine = new EnigmaXMachine();
 	keyBox.value = 	enigmaXMachine.newKey();
 	messageBox.value = messageBoxDefault; 
-	theX.style.position="absolute";
+	theX.style.position = "absolute";
 	loadUI(); 
 };
 
@@ -1331,6 +1331,12 @@ function loadUI() {
 		messageBox.value = messageBoxDefault; 
 		keyBox.value = enigmaRegular.loadKey(noXKeyBoxDefault); 
 		inputKeyBoxDefault = noXKeyBoxDefault;
+		
+		//mitigates IE textarea font fallback bug
+		keyBox.style.fontFamily = "Tahoma, Verdana, sans-serif, icomoon"
+		inputKeyBox.style.fontFamily = "Tahoma, Verdana, sans-serif, icomoon"
+		messageBox.style.fontFamily = "Tahoma, Verdana, sans-serif, icomoon"; 
+		
 		inputKeyBox.value = noXKeyBoxDefault;
 		inputResetButton.style.display = "inline"; 
 		inputButtons.style.width = "31.5em"; 
