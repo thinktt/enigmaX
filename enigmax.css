@@ -1,25 +1,3 @@
-/*@font-face {
-	font-family: 'testfontIE';
-	src:url('fonts/icomoon.eot');
-	font-weight: normal;
-	font-style: normal;
-}*/
-
-
-/*@font-face {
-	font-family: 'testfontFF';
-	scr: url('fonts/icomoon.woff') format('woff');
-	font-weight: normal;
-	font-style: normal;
-}*/
-
-/*@font-face {
-	font-family: 'icomoon';
-	
-	font-weight: normal;
-	font-style: normal;
-}*/
-
 @font-face {
 	font-family: 'icomoonForTxtArea';
 	src:url('fonts/icomoon.ttf') format('truetype'),
