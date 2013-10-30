@@ -951,9 +951,91 @@ function EnigmaXMachine(){
 		return output;
 	};
 
+	//process bracketed thinkDing for encryption (to re-encrypt thinkDing)
+	var processTDGroups = function(message) {
+			
+		//capture first thinkDing group in message
+		var group = /\[[♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸☹✸♬★♖☂]+\]/.exec(message)
+
+		//do while the thinkDing group has actually captured something
+		while(group !== null) {
+			//strip the group down to just the thinkDing group
+			group = group[0]; 
+			//srtip the group down further to just inner thinkDing string
+			group = group.substring(1, group.length-1)
+			//convert to Enigma Code
+			group = tdConverter.toEnigmaCode(group); 
+			//convert to bracketed ascii
+			//if length of string is odd add an extra Z and code for odd string (ʢ)
+			//add escape slashes to any slash or end brackets
+			if(group.length % 2 == 1) {
+				group =  group + "Z";
+				group = aeConverter.toAsciiCode(group); 
+				group = group.replace(/\\/g, "\\\\");
+				group = group.replace(/]/g, "\\]");
+				group = "ʢ[" + group + "]"; 
+			} 
+			else {
+				group = aeConverter.toAsciiCode(group); 
+				group = group.replace(/\\/g, "\\\\");
+				group = group.replace(/]/g, "\\]");
+				group = "ʣ[" + group + "]"; 
+			}
+			//replace brackeded thinkDing with coded brackeded ascii
+			message = message.replace(/\[[♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸☹✸♬★♖☂]+\]/, group); 
+			//capture the next thinkDing group
+			group = /\[[♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸☹✸♬★♖☂]+\]/.exec(message);
+		}
+
+		return message; 
+		
+	};
+
+	//processes decrypted ascii groups that need to be turned back into thinkDing
+	var processAsciiGroups = function(message) {
+
+		var groupCode = ""; 
+
+		//capture the first group in the message
+		var group = /[ʣʢʡ](\[)((?=(\\?))\3[\u0000-\u02A3])*?]/.exec(message);
+
+		while(group !== null) {
+		//strip down to just the group
+			group = group[0];
+			//capture the group code
+			groupCode = group[0];
+			//strip group down to just the inner ascii
+			group = group.substring(2, group.length-1)
+			//replace all escaped slashes
+			group = group.replace(/\\\\/g, "\\");
+			group = group.replace(/\\]/g, "]");
+			//convert to enigma code
+			group = aeConverter.toEnigmaCode(group); 
+			//if group was coded as odd remove last Enigma char
+			if(groupCode === "ʢ") {
+				group = group.substring(0, group.length-1)
+			}
+			//convert to thinkDing
+			group = tdConverter.toThinkDing(group); 
+			//bracket thinkDing
+			group = "[" + group + "]";
+			//replace coded bracketed ascii with bracketed thinkDing
+			message = message.replace(/[ʣʢʡ](\[)((?=(\\?))\3[\u0000-\u02A3])*?]/, group); 
+			//caputre the next group
+			group = /[ʣʢʡ](\[)((?=(\\?))\3[\u0000-\u02A3])*?]/.exec(message);
+		}
+
+		return message; 
+	};
+
 
 	//encrypt-decrypt a message
 	this.crypt = function(inputMessage){
+	
+		var startMessage = inputMessage;
+		
+		//process any bracket thinkDing groups for re-encryption
+		inputMessage = processTDGroups(inputMessage);
 
 		//check if message is ascii
 		if(sTester.isAsciiCode(inputMessage)) {
@@ -1019,9 +1101,13 @@ function EnigmaXMachine(){
 			outputMessage = enigmaTiny.decrypt(inputMessage);
 			inputMessage = outputMessage;
 
-
+			
 			//convert Enigma code to ASCII code
 			outputMessage = aeConverter.toAsciiCode(inputMessage);
+		
+			//procecc any bracketed ASCII groups back to thinkDing
+			outputMessage = processAsciiGroups(outputMessage); 
+			
 		}
 		//if message is not thinkDing or ascii, or is to short
 		else {
