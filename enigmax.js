@@ -950,7 +950,59 @@ function EnigmaXMachine(){
 
 		return output;
 	};
+	
+	//process thinkDing Keys for encryption 
+	var processTDKeys = function(message) {
+			
+		var startsWithNewLine = false; 
+		
+		//capture first thinkDing key in the message
+		var group = /((\n|^)([♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸☹✸♬★♖☂]{26})(?=\n|$)){3}/.exec(message);
 
+		//do while the thinkDing group has actually captured something
+		while(group !== null) {
+			//strip regex down to just the string
+			group = group[0]; 
+			//console.log(group); 
+			
+			//take note if the group starts with a new line
+			if(group[0] === "\n") {startsWithNewLine = true};
+			
+			//remove all endline chars and create one string
+			group = group.replace(/\n/g, ""); 
+			//console.log(group);
+			
+			//convert to Enigma Code
+			group = tdConverter.toEnigmaCode(group); 
+			//console.log(group);
+			
+			//convert to ascii
+			group = aeConverter.toAsciiCode(group);
+			//console.log(group);
+			
+			//add escape slashes to any slash or end brackets
+			group = group.replace(/\\/g, "\\\\");
+			group = group.replace(/]/g, "\\]");
+			//console.log(group);
+			
+			//add group brackets with key code (ʡ)
+			group = "ʡ[" + group + "]"; 
+			//console.log(group);
+			
+			//if group started with a new line add it back in now
+			if(startsWithNewLine) {group = "\n" + group}; 
+			
+			//replace the thinkDing key with coded brackeded ascii
+			message = message.replace(/((\n|^)([♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸☹✸♬★♖☂]{26})(?=\n|$)){3}/, group); 
+					
+			//capture the next thinkDing key
+			group = /((\n|^)([♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸☹✸♬★♖☂]{26})(?=\n|$)){3}/.exec(message);
+		}
+
+		return message; 
+	};
+
+	
 	//process bracketed thinkDing for encryption (to re-encrypt thinkDing)
 	var processTDGroups = function(message) {
 			
@@ -1000,7 +1052,7 @@ function EnigmaXMachine(){
 		var group = /[ʣʢʡ](\[)((?=(\\?))\3[\u0000-\u02A3])*?]/.exec(message);
 
 		while(group !== null) {
-		//strip down to just the group
+			//strip down to just the group
 			group = group[0];
 			//capture the group code
 			groupCode = group[0];
@@ -1011,16 +1063,38 @@ function EnigmaXMachine(){
 			group = group.replace(/\\]/g, "]");
 			//convert to enigma code
 			group = aeConverter.toEnigmaCode(group); 
-			//if group was coded as odd remove last Enigma char
+			
+		
+			//if group was coded as odd 
 			if(groupCode === "ʢ") {
+				//remove last Enigma char
 				group = group.substring(0, group.length-1)
+				//convert to thinkDing
+				group = tdConverter.toThinkDing(group); 
+				//add brackets 
+				group = "[" + group + "]";
 			}
-			//convert to thinkDing
-			group = tdConverter.toThinkDing(group); 
-			//bracket thinkDing
-			group = "[" + group + "]";
-			//replace coded bracketed ascii with bracketed thinkDing
+			//if group is coded as a key 
+			else if (groupCode === "ʡ") {
+				//convert to thinkDing
+				group = tdConverter.toThinkDing(group); 
+				//format as key
+				group = group.substr(0, 26) + '\n' +
+						group.substr(26, 26) + '\n' +
+						group.substr(52, 26);
+			}
+			//otherwise just convert it and add the brackets
+			else {
+				//convert to thinkDing
+				group = tdConverter.toThinkDing(group); 
+				//add brackets 
+				group = "[" + group + "]";
+			}
+			
+
+			//replace coded bracketed ascii with bracketed thinkDing or tdKey
 			message = message.replace(/[ʣʢʡ](\[)((?=(\\?))\3[\u0000-\u02A3])*?]/, group); 
+			
 			//caputre the next group
 			group = /[ʣʢʡ](\[)((?=(\\?))\3[\u0000-\u02A3])*?]/.exec(message);
 		}
@@ -1029,13 +1103,20 @@ function EnigmaXMachine(){
 	};
 
 
+
 	//encrypt-decrypt a message
 	this.crypt = function(inputMessage){
 	
 		var startMessage = inputMessage;
 		
+		//process any thinkDing keys for re-encryption
+		inputMessage = processTDKeys(inputMessage);
+		
 		//process any bracket thinkDing groups for re-encryption
 		inputMessage = processTDGroups(inputMessage);
+		
+		//test that algorithms are working in symetrical fashion
+		console.log(processAsciiGroups(inputMessage) === startMessage); 
 
 		//check if message is ascii
 		if(sTester.isAsciiCode(inputMessage)) {
@@ -1072,48 +1153,54 @@ function EnigmaXMachine(){
 
 
 		}
-		//check if message is thinkDing and has the min start chars
-		else if(sTester.isThinkDing(inputMessage) && inputMessage.length >= 10) {
-
-			//convert message from thinkDing to Enigma code
-			outputMessage = tdConverter.toEnigmaCode(inputMessage);
-
-
-			//remove version code
-			inputMessage = outputMessage.substr(2);
-
-			//push Enigma code backward through the machine
-			enigmaCore.setRotors();
-			outputMessage = enigmaCore.decrypt(inputMessage);
-
-
-			//extract and remove tiny key from message
-			tinyKey.rotorSet = outputMessage.substr(0,3);
-			tinyKey.startSet = outputMessage.substr(3,3);
-			tinyKey.plugboard = basicSet;
-			inputMessage = outputMessage.substr(6);
-
-			//set enigmaTiny key
-			enigmaTiny.setKey(tinyKey);
-
-			//push message backward through enigmaTiny
-			enigmaTiny.setRotors();
-			outputMessage = enigmaTiny.decrypt(inputMessage);
-			inputMessage = outputMessage;
-
-			
-			//convert Enigma code to ASCII code
-			outputMessage = aeConverter.toAsciiCode(inputMessage);
-		
-			//procecc any bracketed ASCII groups back to thinkDing
-			outputMessage = processAsciiGroups(outputMessage); 
-			
-		}
-		//if message is not thinkDing or ascii, or is to short
 		else {
-			outputMessage = "invalid\0";
-		}
+			
+			//strip all spaces and new lines from the message
+			inputMessage = inputMessage.replace(/[\n ]/g, ""); 
+			
+			//check if message is thinkDing and has the min start chars
+			if(sTester.isThinkDing(inputMessage) && inputMessage.length >= 10) {
 
+				//convert message from thinkDing to Enigma code
+				outputMessage = tdConverter.toEnigmaCode(inputMessage);
+
+
+				//remove version code
+				inputMessage = outputMessage.substr(2);
+
+				//push Enigma code backward through the machine
+				enigmaCore.setRotors();
+				outputMessage = enigmaCore.decrypt(inputMessage);
+
+
+				//extract and remove tiny key from message
+				tinyKey.rotorSet = outputMessage.substr(0,3);
+				tinyKey.startSet = outputMessage.substr(3,3);
+				tinyKey.plugboard = basicSet;
+				inputMessage = outputMessage.substr(6);
+
+				//set enigmaTiny key
+				enigmaTiny.setKey(tinyKey);
+
+				//push message backward through enigmaTiny
+				enigmaTiny.setRotors();
+				outputMessage = enigmaTiny.decrypt(inputMessage);
+				inputMessage = outputMessage;
+
+				
+				//convert Enigma code to ASCII code
+				outputMessage = aeConverter.toAsciiCode(inputMessage);
+			
+				//procecc any bracketed ASCII groups back to thinkDing
+				outputMessage = processAsciiGroups(outputMessage); 
+				
+			}
+			//if message is not thinkDing or ascii, or is to short
+			else {
+				outputMessage = "invalid\0";
+			}
+		}
+		
 		return outputMessage;
 	};
 
