@@ -63,7 +63,7 @@ function Rotor(subSet) {
 
 	//used to tell if the notch has been passed
 	this.checkNotch = function(){
-		if(ringSet[25] == notch) {
+		if(ringSet[25] === notch) {
 			output =  true;
 		}
 		else {
@@ -76,7 +76,7 @@ function Rotor(subSet) {
 	//used to tell if notch is about to be passed
 	//useful for double stepping feature
 	this.checkPreNotch = function() {
-		if(ringSet[0] == notch){
+		if(ringSet[0] === notch){
 			output = true;
 		}
 		else {
@@ -87,7 +87,7 @@ function Rotor(subSet) {
 	};
 
 	this.setStartPosition = function(input){
-		while(ringSet[0] != input) {
+		while(ringSet[0] !== input) {
 			this.rotate();
 		}
 	};
@@ -97,7 +97,7 @@ function Rotor(subSet) {
 		//rotate the ring set until it matches the
 		//input setting, if it never matches exit the loop
 		var x = 0;
-		while(ringSet[0] != input && x < 26) {
+		while(ringSet[0] !== input && x < 26) {
 			ringSet = ringSet + ringSet[0];
 			ringSet = ringSet.slice(1);
 			x++;
@@ -121,7 +121,7 @@ function EnigmaCore() {
 	var ringSet = "";
 
 	//double is step used for the regular enigma
-	//doulbe stepping feature
+	//double stepping feature
 	var doubleStepOn = false;
 
 	this.turnOnDoubleStep = function() {
@@ -135,7 +135,7 @@ function EnigmaCore() {
 
 	//loads a new rotor Array into the machine
 	this.loadRotors = function(inputRotorArray){
-		rottorArray = inputRotorArray();
+		rotorArray = inputRotorArray();
 
 	};
 
@@ -144,7 +144,8 @@ function EnigmaCore() {
 
 		//console.log(rotorArray[0].getBasicSet());
 		//console.log(rotorArray.length);
-
+		
+		
 		for(var i=0; i< rotorArray.length; i++) {
 			rotorArray[i].setStartPosition(startSet[i]);
 			//console.log(rotorArray[i].getBasicSet());
@@ -966,7 +967,7 @@ function EnigmaXMachine(){
 			//console.log(group); 
 			
 			//take note if the group starts with a new line
-			if(group[0] === "\n") {startsWithNewLine = true};
+			if(group[0] === "\n") {startsWithNewLine = true;}
 			
 			//remove all endline chars and create one string
 			group = group.replace(/\n/g, ""); 
@@ -990,7 +991,7 @@ function EnigmaXMachine(){
 			//console.log(group);
 			
 			//if group started with a new line add it back in now
-			if(startsWithNewLine) {group = "\n" + group}; 
+			if(startsWithNewLine) {group = "\n" + group;} 
 			
 			//replace the thinkDing key with coded brackeded ascii
 			message = message.replace(/((\n|^)([♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸☹✸♬★♖☂]{26})(?=\n|$)){3}/, group); 
@@ -1007,20 +1008,20 @@ function EnigmaXMachine(){
 	var processTDGroups = function(message) {
 			
 		//capture first thinkDing group in message
-		var group = /\[[♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸☹✸♬★♖☂]+\]/.exec(message)
+		var group = /\[[♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸☹✸♬★♖☂]+\]/.exec(message);
 
 		//do while the thinkDing group has actually captured something
 		while(group !== null) {
 			//strip the group down to just the thinkDing group
 			group = group[0]; 
 			//srtip the group down further to just inner thinkDing string
-			group = group.substring(1, group.length-1)
+			group = group.substring(1, group.length-1);
 			//convert to Enigma Code
 			group = tdConverter.toEnigmaCode(group); 
 			//convert to bracketed ascii
 			//if length of string is odd add an extra Z and code for odd string (ʢ)
 			//add escape slashes to any slash or end brackets
-			if(group.length % 2 == 1) {
+			if(group.length % 2 === 1) {
 				group =  group + "Z";
 				group = aeConverter.toAsciiCode(group); 
 				group = group.replace(/\\/g, "\\\\");
@@ -1057,7 +1058,7 @@ function EnigmaXMachine(){
 			//capture the group code
 			groupCode = group[0];
 			//strip group down to just the inner ascii
-			group = group.substring(2, group.length-1)
+			group = group.substring(2, group.length-1);
 			//replace all escaped slashes
 			group = group.replace(/\\\\/g, "\\");
 			group = group.replace(/\\]/g, "]");
@@ -1068,7 +1069,7 @@ function EnigmaXMachine(){
 			//if group was coded as odd 
 			if(groupCode === "ʢ") {
 				//remove last Enigma char
-				group = group.substring(0, group.length-1)
+				group = group.substring(0, group.length-1);
 				//convert to thinkDing
 				group = tdConverter.toThinkDing(group); 
 				//add brackets 
@@ -1276,7 +1277,7 @@ var checkProgress = function()
 			clearInterval(intervalHandle);
 			startEnigmaX();
 		}
-	 else {
+	else {
 			keyBox.value = "Generating Key\n" + thinkDingSet.slice(0,4) + "\nplease move your mouse around";
 			thinkDingSet = thinkDingSet + thinkDingSet[0];
 			thinkDingSet = thinkDingSet.slice(1);
@@ -1333,7 +1334,7 @@ function loadUI() {
 		if(noX){keyValues = enigmaRegular.loadKey(inputKeyBox.value);}
 		else{keyValues = enigmaXMachine.loadKey(inputKeyBox.value);}
 
-		if(keyValues == "invalid\0") {
+		if(keyValues === "invalid\0") {
 			blinkRed(inputKeyBox);
 		}
 		else {
@@ -1352,7 +1353,7 @@ function loadUI() {
 
 
 	messageBox.onfocus = function() {
-		if(messageBox.value == messageBoxDefault) {
+		if(messageBox.value === messageBoxDefault) {
 			messageBox.value = "";
 		}
 	};
@@ -1383,7 +1384,7 @@ function loadUI() {
 	};
 
 	inputKeyBox.onfocus = function() {
-		if(inputKeyBox.value == inputKeyBoxDefault && !noX) {
+		if(inputKeyBox.value === inputKeyBoxDefault && !noX) {
 			inputKeyBox.value = "";
 		}
 
@@ -1472,7 +1473,7 @@ function loadUI() {
 
 			//when the x has dropped far enough it dissapears
 			//and noX mode loads (Enigma Regular)
-			if (down == 750) {
+			if (down === 750) {
 				clearInterval(timer);
 				theX.style.display = "none";
 				switchToNoX();
