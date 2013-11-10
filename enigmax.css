@@ -167,7 +167,7 @@ input:focus, select:focus, textarea:focus {
 
 #messageBox textarea, #messageBoxEReg textarea{
 	width: 750px;
-	height: 450px;
+	height: 475px;
 	margin: 0 auto;
 	border: 2px solid;
 	color: #ccc;

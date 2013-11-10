@@ -1252,6 +1252,35 @@ enigmaXButton.style.color = "#333";
 enigmaXButton.style.backgroundColor = "#ccc";
 enigmaXButton.style.borderColor = "#ccc";
 
+//...............Message Box Adjuster...................
+//confusing little script that gets the view port height
+var e = window;
+var a = 'inner';
+if ( !( 'innerWidth' in window ) ) {
+		a = 'client';
+		e = document.documentElement || document.body;
+}
+
+
+//the resizer, adjust according to viewport height
+ var resizeMessageBox = function() {
+	viewportHeight = e[ a+'Height' ];
+
+	if(viewportHeight < 785) {
+		messageBox.style.height = (475 -(785 - viewportHeight)) + "px"; 
+	} 
+	else {
+		messageBox.style.height = (475 + "px"); 
+	}
+
+};
+
+resizeMessageBox(); 
+
+window.onresize = resizeMessageBox;
+
+
+
 
 //.......................The Program......................
 var enigmaXMachine;
