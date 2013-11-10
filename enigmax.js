@@ -1264,14 +1264,21 @@ if ( !( 'innerWidth' in window ) ) {
 
 //the resizer, adjust according to viewport height
  var resizeMessageBox = function() {
+	var newHeight; 
+
 	viewportHeight = e[ a+'Height' ];
 
-	if(viewportHeight < 785) {
-		messageBox.style.height = (475 -(785 - viewportHeight)) + "px"; 
+	if(viewportHeight < 785 && viewportHeight > 405 ) {
+		newHeight = (475 -(785 - viewportHeight)) + "px"; 
 	} 
-	else {
-		messageBox.style.height = (475 + "px"); 
+	else if (viewportHeight <= 405) {
+		newHeight = 95; 
 	}
+	else {
+		newHeight = (475 + "px"); 
+	}
+
+	messageBox.style.height = newHeight; 
 
 };
 
