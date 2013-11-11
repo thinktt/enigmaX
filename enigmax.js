@@ -1263,8 +1263,9 @@ if ( !( 'innerWidth' in window ) ) {
 
 
 //the resizer, adjust according to viewport height
- var resizeMessageBox = function() {
+var resizeMessageBox = function() {
 	var newHeight; 
+	var newWidth;
 
 	viewportHeight = e[ a+'Height' ];
 
@@ -1280,14 +1281,17 @@ if ( !( 'innerWidth' in window ) ) {
 
 	messageBox.style.height = newHeight; 
 
+	
+
 };
+
 
 resizeMessageBox(); 
 
 window.onresize = resizeMessageBox;
 
+//resize width to hid scroll bar
 var newWidth = 750 + (750 - messageBox.scrollWidth);
-
 messageBox.style.width = newWidth +"px"; 
 
 
