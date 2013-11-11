@@ -21,7 +21,6 @@
 }
 
 
-
 body {
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
@@ -33,7 +32,6 @@ body {
 	overflow-y:auto; 
 	/*webkit-font-smoothing: antialiased;*/
 }
-
 
 
 textarea {
