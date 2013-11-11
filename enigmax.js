@@ -1290,7 +1290,7 @@ resizeMessageBox();
 window.onresize = resizeMessageBox;
 
 //resize width to hid scroll bar
-var newWidth = 750 + (750 - messageBox.scrollWidth);
+var newWidth = 753 + (753 - messageBox.scrollWidth);
 messageBox.style.width = newWidth +"px"; 
 
 

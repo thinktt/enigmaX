@@ -21,6 +21,7 @@
 }
 
 
+
 body {
 	margin: 0px 0px 0px 0px;
 	padding: 0px 0px 0px 0px;
@@ -31,6 +32,12 @@ body {
 	overflow:hidden;
 	overflow-y:auto; 
 	/*webkit-font-smoothing: antialiased;*/
+}
+
+#centerDiv {
+	width: 775px;
+	margin:0 auto;
+	/*background-color: blue; */
 }
 
 
@@ -157,10 +164,11 @@ input:focus, select:focus, textarea:focus {
 
 
 #messageBox, #messageBoxEReg {
-	width: 750px;
+	width: 753px;
 	margin: 0 auto;
 	border: 2px solid;
 	margin-top: 8px;
+	margin-left: 12px; 
 	overflow: hidden;
 		
 }
