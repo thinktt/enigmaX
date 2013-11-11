@@ -1286,6 +1286,10 @@ resizeMessageBox();
 
 window.onresize = resizeMessageBox;
 
+var newWidth = 750 + (750 - messageBox.scrollWidth);
+
+messageBox.style.width = newWidth +"px"; 
+
 
 
 
@@ -1301,6 +1305,7 @@ var startEnigmaX = function() {
 	enigmaXMachine = new EnigmaXMachine();
 	keyBox.value =  enigmaXMachine.newKey();
 	messageBox.value = messageBoxDefault;
+	messageBox.blur(); 
 	theX.style.position = "absolute";
 	loadUI();
 };
