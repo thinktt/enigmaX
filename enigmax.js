@@ -1282,12 +1282,7 @@ var resizeMessageBox = function() {
 	}
 
 	messageBox.style.height = newHeight; 
-
-	messageBoxDefault = newHeight;
-	
-
 };
-
 
 
 resizeMessageBox(); 
