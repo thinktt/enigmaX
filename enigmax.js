@@ -1210,6 +1210,7 @@ function EnigmaXMachine(){
 
 
 //.................DOM Handlers.....................
+var body = document.body; 
 var mainDiv = document.getElementById("mainDiv");
 var messageDiv = document.getElementById("messageDiv");
 var loadDiv = document.getElementById("loadDiv");
@@ -1219,6 +1220,7 @@ var eRegDiv = document.getElementById("eRegDiv");
 var theX = document.getElementById("theX");
 
 var keyBox = document.getElementById("keyBox1").children[0];
+var messageBoxOuter = document.getElementById("messageBox"); 
 var messageBox = document.getElementById("messageBox").children[0];
 
 var enigmaXButton = document.getElementById("buttonArea1").children[0];
@@ -1281,9 +1283,11 @@ var resizeMessageBox = function() {
 
 	messageBox.style.height = newHeight; 
 
+	messageBoxDefault = newHeight;
 	
 
 };
+
 
 
 resizeMessageBox(); 
@@ -1366,7 +1370,7 @@ function loadUI() {
 		}
 
 		if(message === "invalid\0") {
-			blinkRed(messageBox);
+			blinkRed(messageBoxOuter);
 		}
 		else {
 			messageBox.value = message;
@@ -1506,6 +1510,13 @@ function loadUI() {
 		var left = 0;
 		var rotate = 0;
 
+		//take a sloppy guess if the scroll bar might be around (test with message box)
+		// if so leave it on otherwise turn it off so it doesn't pop up when 
+		//the X reaches the bottom of the page
+		if (messageBox.style.height >= "435px") {
+			body.style.overflowY = "hidden";
+		} 
+
 		var timer = setInterval(function() {
 
 			rotate++;
@@ -1522,6 +1533,9 @@ function loadUI() {
 				clearInterval(timer);
 				theX.style.display = "none";
 				switchToNoX();
+
+				//turn scrolling back on
+				body.style.overflowY = "auto";
 			}
 		}, 1);
 	};
@@ -1555,6 +1569,7 @@ function loadUI() {
 		inputResetButton.style.display = "inline";
 		inputButtons.style.width = "31.5em";
 		eRegDiv.style.display = "block";
+
 	};
 
 }
