@@ -1256,11 +1256,11 @@ enigmaXButton.style.borderColor = "#ccc";
 
 //...............Message Box Adjuster...................
 //confusing little script that gets the view port height
-var e = window;
+var w = window;
 var a = 'inner';
 if ( !( 'innerWidth' in window ) ) {
 		a = 'client';
-		e = document.documentElement || document.body;
+		w = document.documentElement || document.body;
 }
 
 
@@ -1269,7 +1269,7 @@ var resizeMessageBox = function() {
 	var newHeight; 
 	var newWidth;
 
-	viewportHeight = e[ a+'Height' ];
+	viewportHeight = w[ a+'Height' ];
 
 	if(viewportHeight < 785 && viewportHeight > 405 ) {
 		newHeight = (475 -(785 - viewportHeight)) + "px"; 
@@ -1302,6 +1302,7 @@ var enigmaRegular = new EnigmaRegular();
 sjcl.random.startCollectors();
 var thinkDingSet ="♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸☹✸♬★♖☂";
 var intervalHandle;
+
 
 
 var startEnigmaX = function() {
@@ -1404,6 +1405,7 @@ function loadUI() {
 
 
 	messageBox.onmouseout = function() {
+		
 		if(messageBox.value === "" && !contextMenuOn) {
 			messageBox.value = messageBoxDefault;
 			messageBox.blur();
@@ -1412,10 +1414,19 @@ function loadUI() {
 
 	messageBox.oncontextmenu = function() {
 		contextMenuOn = true;
+		
 	};
 
-	document.onclick = function() {
-		contextMenuOn = false;
+	document.onclick = function(e) {
+		
+		//get correct event to figure out which mouse 
+		//button was clicked
+		if(!e) {var e = window.event;} 
+		
+		//if button clicked was not the right mouse button
+		if( !(e.which === 3 || e.button === 2)) {
+			contextMenuOn = false;
+		}
 	};
 
 	keyBox.onclick = function() {
@@ -1435,6 +1446,7 @@ function loadUI() {
 	};
 
 	inputKeyBox.onmouseout = function() {
+				
 		if(noX) {
 			inputKeyBox.value = inputKeyBox.value.toUpperCase();
 		}
