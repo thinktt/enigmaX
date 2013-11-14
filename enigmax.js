@@ -1157,7 +1157,7 @@ function EnigmaXMachine(){
 		else {
 			
 			//strip all spaces and new lines from the message
-			inputMessage = inputMessage.replace(/[\n ]/g, ""); 
+			inputMessage = inputMessage.replace(/[\n\r\uFEFF ]/g, ""); 
 			
 			//check if message is thinkDing and has the min start chars
 			if(sTester.isThinkDing(inputMessage) && inputMessage.length >= 10) {
