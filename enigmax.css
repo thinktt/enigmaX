@@ -187,8 +187,9 @@ input:focus, select:focus, textarea:focus {
 	overflow:hidden;
 	overflow-y:scroll; 
 	border: none;
-	padding-left: 3px;
-	padding-right: 2px; 
+	padding-top: 2px;
+	padding-left: 4px;
+	padding-right: 5px; 
 	
 }
 
