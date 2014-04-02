@@ -1304,6 +1304,12 @@ var thinkDingSet ="♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸�
 var intervalHandle;
 
 
+var clickclackSound = new Audio('./sounds/clickclack.wav');
+var clickSound = new Audio('./sounds/click.wav');
+var buzzSound = new Audio('./sounds/buzz.wav');
+var rotorSound = new Audio('./sounds/rotors.wav');
+var dropSound = new Audio('./sounds/drop.wav');
+
 
 var startEnigmaX = function() {
 	enigmaXMachine = new EnigmaXMachine();
@@ -1349,6 +1355,9 @@ window.onload = function(){
 function loadUI() {
 
 	newKeyButton.onclick = function() {
+		var audio = new Audio('./sounds/clickclack.wav');
+		clickclackSound.play();
+
 		if(noX){}
 		else{keyBox.value = enigmaXMachine.newKey();}
 	};
@@ -1366,9 +1375,11 @@ function loadUI() {
 		}
 
 		if(message === "invalid\0") {
+			buzzSound.play(); 
 			blinkRed(messageBoxOuter);
 		}
 		else {
+			rotorSound.play(); 
 			messageBox.value = message;
 		}
 	};
@@ -1376,13 +1387,16 @@ function loadUI() {
 	inputLoadButton.onclick = function() {
 		var keyValues;
 
+		
 		if(noX){keyValues = enigmaRegular.loadKey(inputKeyBox.value);}
 		else{keyValues = enigmaXMachine.loadKey(inputKeyBox.value);}
 
 		if(keyValues === "invalid\0") {
+			buzzSound.play(); 
 			blinkRed(inputKeyBox);
 		}
 		else {
+			clickclackSound.play();
 			keyBox.value = keyValues;
 		}
 	};
@@ -1390,6 +1404,7 @@ function loadUI() {
 
 
 	loadButton.onclick = function() {
+		clickSound.play();
 		inputKeyBox.value = inputKeyBoxDefault;
 		messageDiv.style.display = "none";
 		loadDiv.style.display = 'inline';
@@ -1434,6 +1449,7 @@ function loadUI() {
 	};
 
 	inputDoneButton.onclick = function() {
+		clickSound.play();
 		messageDiv.style.display = "inline";
 		loadDiv.style.display = 'none';
 	};
@@ -1467,6 +1483,7 @@ function loadUI() {
 		messageDiv.style.display = "inline";
 		aboutDiv.style.display = 'none';
 		loadDiv.style.display = 'none';*/
+		clickSound.play(); 
 
 		mainDiv.style.display ="inline";
 		aboutDiv.style.display = 'none';
@@ -1487,7 +1504,7 @@ function loadUI() {
 		aboutDiv.style.display = "block";
 		loadDiv.style.display = 'none';*/
 
-
+		clickSound.play(); 
 		mainDiv.style.display ="none";
 		aboutDiv.style.display = "block";
 
@@ -1502,6 +1519,7 @@ function loadUI() {
 	};
 
 	inputResetButton.onclick = function(){
+		clickSound.play(); 
 		inputKeyBox.value = noXKeyBoxDefault;
 	};
 
@@ -1516,6 +1534,8 @@ function loadUI() {
 		var down = 0;
 		var left = 0;
 		var rotate = 0;
+
+		dropSound.play(); 
 
 		//take a sloppy guess if the scroll bar might be around (test with message box)
 		// if so leave it on otherwise turn it off so it doesn't pop up when 
