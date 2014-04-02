@@ -1304,11 +1304,11 @@ var thinkDingSet ="♆☢♗☯☠✈♞❂☭✂☏☾♠✿☮❉♕✪♙☸�
 var intervalHandle;
 
 
-var clickclackSound = new Audio('./sounds/clickclack.wav');
-var clickSound = new Audio('./sounds/click.wav');
-var buzzSound = new Audio('./sounds/buzz.wav');
-var rotorSound = new Audio('./sounds/rotors.wav');
-var dropSound = new Audio('./sounds/drop.wav');
+var clickclackSound = new Audio('./sounds/clickclack.mp3');
+var clickSound = new Audio('./sounds/click.mp3');
+var buzzSound = new Audio('./sounds/buzz.mp3');
+var rotorSound = new Audio('./sounds/rotors.mp3');
+var dropSound = new Audio('./sounds/drop.mp3');
 
 
 var startEnigmaX = function() {
