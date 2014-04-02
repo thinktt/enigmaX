@@ -1355,7 +1355,6 @@ window.onload = function(){
 function loadUI() {
 
 	newKeyButton.onclick = function() {
-		var audio = new Audio('./sounds/clickclack.wav');
 		clickclackSound.play();
 
 		if(noX){}
