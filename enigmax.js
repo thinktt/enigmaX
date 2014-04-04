@@ -1259,21 +1259,6 @@ var bgImg = new Image();
 bgImg.src = 'background.jpg';
 
 
-/*
-//..........Background Loader..............
-//this scrypt waits for the background image to 
-//load then puts it on the page
-
-var int = setInterval(function() {
-    if (bgImg.complete) {
-        clearInterval(int);
-        body.style.backgroundImage = 'url(background.jpg)';
-    }
-}, 50);
-
-*/
-
-
 //........Miselaneous Setup Stuff..............
 messageBox.value = messageBoxDefault;
 inputKeyBox.value = inputKeyBoxDefault;
@@ -1372,7 +1357,6 @@ window.onload = function(){
     if (bgImg.complete) {
     	opacity = opacity + 0.1; 
     	hiddenBody.style.opacity = opacity;
-    	console.log(hiddenBody.style.opacity); 
     	
     	if(hiddenBody.style.opacity >= 1) {
        		clearInterval(fadeInterval);
