@@ -28,10 +28,9 @@ body {
 	font-family: Tahoma, Verdana, sans-serif, icomoon;
 	/*font-family: Tahoma, Verdana, sans-serif, icomoon;*/
 	color: #ccc;
-	background-color: transparent;
+	background-color: #111;
 	overflow:hidden;
 	overflow-y:auto; 
-	background-image:url('background.jpg');
 	/*webkit-font-smoothing: antialiased;*/
 }
 
